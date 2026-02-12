@@ -1,0 +1,51 @@
+.main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease-in-out;
+  padding-top: 56px; /* Altura do Navbar */
+  width: 100%;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 70px;
+}
+
+.main-content.sidebar-open {
+  margin-left: 250px;
+}
+
+.main-content.no-sidebar {
+  margin-left: 0;
+}
+
+.navbar-brand-custom {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+}
+
+/* Garante que o container principal cresça para preencher o espaço disponível */
+main.flex-grow-1 {
+  flex: 1;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+
+.avatar-dropdown-toggle {
+  padding: 0 !important; /* Remove padding para o avatar se ajustar melhor */
+  display: flex;
+  align-items: center;
+}
+
+.navbar-dark .nav-link {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.navbar-dark .nav-link:hover {
+    color: rgba(255, 255, 255, 0.75);
+}

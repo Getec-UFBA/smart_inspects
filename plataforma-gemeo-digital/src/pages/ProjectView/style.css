@@ -1,0 +1,92 @@
+/* General styling for ProjectView */
+.project-view-container {
+  padding: 20px;
+  background-color: var(--bs-body-bg); /* Use a variável do tema */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+}
+
+.project-header {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 15px;
+}
+
+.project-title {
+  color: #343a40; /* Darker text for title */
+  font-weight: 600;
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 500;
+  color: #495057;
+}
+
+.card-title {
+  color: #007bff; /* Primary color for card titles */
+  margin-bottom: 1rem;
+}
+
+/* Image processing section */
+.image-processing-section {
+  padding: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 0.3rem;
+  background-color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.image-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between input and button */
+  margin-bottom: 1rem;
+}
+
+.image-preview-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.image-preview-container img {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.075);
+  max-height: 400px; /* Limit height for processed image */
+  width: auto;
+  object-fit: contain;
+}
+
+/* Modules card */
+.modules-card .card-body p {
+  margin-bottom: 0.5rem;
+  color: #5a6268;
+}
+
+.error-message {
+  color: #dc3545;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+.image-modal .modal-dialog {
+  z-index: 1050; /* Ensure modal appears on top */
+}
+
+.form-control[type="file"] {
+  background-color: #ffffff !important; /* Força o fundo branco */
+  color: #212529 !important; /* Força o texto preto */
+}

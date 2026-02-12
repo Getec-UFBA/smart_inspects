@@ -1,0 +1,77 @@
+.register-user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.register-user-box {
+  background: var(--bs-body-bg); /* Cinza escuro, mais claro que o fundo */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  color: var(--bs-body-color); /* Texto claro para contraste */
+  border: 1px solid var(--bs-secondary);
+}
+
+.register-user-box h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--bs-body-color); /* Título claro */
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--bs-body-color); /* Labels claros */
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--bs-secondary);
+  border-radius: 4px;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-secondary);
+}
+
+.input-group input::placeholder,
+.input-group select::placeholder {
+  color: var(--bs-secondary);
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--bs-primary); /* Verde */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #146C43; /* Verde mais escuro */
+}
+
+.error-message {
+  color: #dc3545; /* Vermelho padrão para erros */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #28a745; /* Verde para mensagens de sucesso */
+  text-align: center;
+  margin-bottom: 1rem;
+}

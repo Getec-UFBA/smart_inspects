@@ -1,0 +1,100 @@
+/* Estilos para a página de Projetos */
+.project-card {
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-secondary);
+  color: var(--bs-body-color);
+  transition: transform 0.2s;
+  height: 100%;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+.project-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.project-card .btn-outline-light {
+  color: var(--bs-body-color);
+  border-color: var(--bs-body-color);
+}
+
+.project-card .btn-outline-light:hover {
+  color: var(--bs-body-bg);
+  background-color: var(--bs-body-color);
+  border-color: var(--bs-body-color);
+}
+
+/* Estilos para o Modal */
+.modal-content {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border: 1px solid var(--bs-secondary);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--bs-secondary);
+}
+
+.modal-body .form-label {
+    color: var(--bs-body-color);
+}
+
+.modal-body .form-control, .modal-body .form-check-input {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-secondary);
+}
+
+.modal-body .form-control:focus {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.5);
+}
+
+.oae-section {
+  border: 1px dashed var(--bs-secondary);
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+.oae-item {
+  position: relative;
+  border: 1px solid var(--bs-secondary);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.oae-item .btn-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  filter: var(--bs-body-color) invert(1) grayscale(100%) brightness(200%);
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: #146C43 !important;
+  border-color: #146C43 !important;
+}

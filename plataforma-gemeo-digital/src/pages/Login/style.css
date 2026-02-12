@@ -1,0 +1,88 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Para ocupar o espaço disponível no Layout */
+}
+
+.login-box {
+  background: var(--bs-body-bg); /* Usa a cor de fundo do corpo */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  color: var(--bs-body-color); /* Usa a cor do texto do corpo */
+  border: 1px solid var(--bs-secondary);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--bs-body-color); /* Título com a cor do corpo */
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--bs-body-color); /* Labels com a cor do corpo */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--bs-secondary);
+  border-radius: 4px;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-secondary);
+}
+
+.input-group input::placeholder {
+  color: var(--bs-secondary);
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--bs-primary); /* Verde */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #146C43; /* Verde mais escuro */
+}
+
+.error-message {
+  color: #dc3545; /* Vermelho padrão para erros */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.complete-registration-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.complete-registration-link p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.complete-registration-link a {
+  color: var(--bs-primary); /* Verde para o link */
+  text-decoration: none;
+}
+
+.complete-registration-link a:hover {
+  text-decoration: underline;
+}

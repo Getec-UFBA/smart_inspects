@@ -1,0 +1,43 @@
+.password-input-group {
+  position: relative;
+  margin-bottom: 1rem; /* Adapta-se ao input-group geral */
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 2.5rem; /* Espaço para o ícone */
+  width: 100%;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 10; /* Garante que o ícone esteja acima do input */
+}
+
+.password-toggle svg {
+    width: 1em; /* Ajusta o tamanho do SVG */
+    height: 1em; /* Ajusta o tamanho do SVG */
+    fill: var(--bs-body-color); /* Cor do ícone com a variável de tema */
+    font-size: 1.2rem; /* Mantém um tamanho de fonte para o svg */
+}
+
+.password-toggle:hover svg {
+    fill: var(--bs-primary); /* Cor do ícone no hover */
+}
+
+/* Reajuste para as labels gerais que já existem */
+.input-group label {
+  margin-bottom: 0.5rem;
+  display: block;
+}

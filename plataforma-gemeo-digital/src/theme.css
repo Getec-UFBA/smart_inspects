@@ -1,0 +1,35 @@
+body.light {
+  --bs-primary: #198754; /* Verde */
+  --bs-secondary: #6c757d; /* Cinza */
+  --bs-body-bg: #ffffff; /* Fundo Branco */
+  --bs-body-color: #212529; /* Texto Preto */
+
+  /* Estilo para botões light */
+  --bs-btn-light-color: #212529; /* Texto escuro */
+  --bs-btn-light-bg: #f8f9fa; /* Fundo branco */
+  --bs-btn-light-border-color: #adb5bd; /* Borda cinza claro */
+  --bs-btn-light-hover-color: #fff; /* Texto branco no hover */
+  --bs-btn-light-hover-bg: var(--bs-primary); /* Fundo verde no hover */
+  --bs-btn-light-hover-border-color: var(--bs-primary); /* Borda verde no hover */
+}
+
+body.dark {
+  --bs-primary: #198754; /* Verde */
+  --bs-secondary: #6c757d; /* Cinza */
+  --bs-body-bg: #343a40; /* Fundo Cinza Escuro */
+  --bs-body-color: #f8f9fa; /* Texto Cinza Claro */
+
+  /* Estilo para botões light */
+  --bs-btn-light-color: #212529; /* Texto escuro */
+  --bs-btn-light-bg: #f8f9fa; /* Fundo branco */
+  --bs-btn-light-border-color: #adb5bd; /* Borda cinza claro */
+  --bs-btn-light-hover-color: #fff; /* Texto branco no hover */
+  --bs-btn-light-hover-bg: var(--bs-primary); /* Fundo verde no hover */
+  --bs-btn-light-hover-border-color: var(--bs-primary); /* Borda verde no hover */
+}
+
+/* Estilo para a marca no cabeçalho */
+.navbar-brand-custom {
+  font-weight: bold;
+  color: var(--bs-primary); /* Verde */
+}

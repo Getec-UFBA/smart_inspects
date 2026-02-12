@@ -1,0 +1,33 @@
+.change-password-container {
+  color: var(--bs-body-color);
+}
+
+.change-password-box {
+  background: var(--bs-body-bg);
+  padding: 2.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  border: 1px solid var(--bs-secondary);
+}
+
+.change-password-box .btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.change-password-box .btn-primary:hover {
+  background-color: #146C43;
+  border-color: #146C43;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 1rem;
+}
