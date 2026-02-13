@@ -27,6 +27,11 @@ interface ICreateRequest {
   unitDirector?: string;
 }
 
+export interface IUpdateRequest {
+  projectId: string;
+  data: Partial<IProject>;
+}
+
 interface ICreateInspectionRequest {
   projectId: string;
   inspectionType: string;
@@ -83,7 +88,7 @@ class ProjectService {
     // Verificação adicional para garantir que todos os arquivos foram usados
     if (parsedOaes.length !== oaeBimModelFiles.length) {
       // Isso pode indicar uma inconsistência entre os dados do formulário e os arquivos enviados
-      console.warn('O número de OAEs e de arquivos de modelo BIM não corresponde.');
+      console.warn('O número de OAEs e de modelo BIM não corresponde.');
       // Dependendo da regra de negócio, você pode querer lançar um erro aqui
       // throw new Error('Inconsistência nos dados das OAEs.');
     }
@@ -112,6 +117,22 @@ class ProjectService {
     }
 
     return this.projectRepository.create(newProject);
+  }
+
+  public async update({ projectId, data }: IUpdateRequest): Promise<IProject> {
+    const project = await this.projectRepository.findById(projectId);
+
+    if (!project) {
+      throw new Error('Projeto não encontrado.');
+    }
+
+    const updatedProject = await this.projectRepository.update(projectId, data);
+
+    if (!updatedProject) {
+      throw new Error('Falha ao atualizar o projeto.');
+    }
+
+    return updatedProject;
   }
 
   public async createInspection({

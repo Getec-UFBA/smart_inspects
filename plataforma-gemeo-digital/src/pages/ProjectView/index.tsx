@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap'; // Removed Dropdown, ButtonGroup
+import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import './style.css';
 import path from 'path-browserify';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { FaCog, FaPencilAlt } from 'react-icons/fa';
 
 interface IDetection {
   class_name: string;
@@ -17,9 +18,8 @@ interface IImage {
   detections?: IDetection[];
 }
 
-// Nova interface IInspection (substitui IFolder)
 interface IInspection {
-  id: string; // Adicionar ID para a inspeção
+  id: string;
   inspectionType: string;
   inspectionObjective: string;
   inspectionDate: string;
@@ -31,6 +31,14 @@ interface IProject {
   id: string;
   name: string;
   responsible: string;
+  address: string;
+  type: string;
+  buildingYear?: string;
+  builtArea?: string;
+  facadeTypology?: string;
+  roofTypology?: string;
+  buildingAcronym?: string;
+  unitDirector?: string;
   coverImageUrl: string;
   bimModelUrl: string;
   modules: {
@@ -38,7 +46,7 @@ interface IProject {
     security: boolean;
     maintenance: boolean;
   };
-  inspections?: IInspection[]; // Substitui 'folders'
+  inspections?: IInspection[];
 }
 
 const ProjectView: React.FC = () => {
@@ -49,24 +57,89 @@ const ProjectView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
-  const [processedImageResponse, setProcessedImageResponse] = useState<{ base64: string; detections: IDetection[] } | null>(null); // New state
+  const [processedImageResponse, setProcessedImageResponse] = useState<{ base64: string; detections: IDetection[] } | null>(null);
   const [savingImage, setSavingImage] = useState(false);
-  const [newInspectionObjective, setNewInspectionObjective] = useState(''); // Renomeado de newFolderName
-  const [inspectionType, setInspectionType] = useState('Preventiva'); // Novo estado para Tipo de Inspeção
-  const [inspectionDate, setInspectionDate] = useState(''); // Novo estado para Data da Inspeção
-  const [inspectionResponsible, setInspectionResponsible] = useState(''); // Novo estado para Responsável pela Inspeção
-  const [selectedInspectionToSave, setSelectedInspectionToSave] = useState<string>(''); // Renomeado de selectedFolderToSave
-  const [showCreateInspectionModal, setShowCreateInspectionModal] = useState(false); // Novo estado para modal de inspeção
-  const [showCreateFolderInput, setShowCreateFolderInput] = useState<boolean>(false); // State to toggle new folder input (manter por enquanto)
-  const [showImageModal, setShowImageModal] = useState<boolean>(false); // State to control modal visibility
-  const [selectedInspectionImages, setSelectedInspectionImages] = useState<IImage[]>([]); // State to hold images of the selected folder (now IImage[])
-  const [selectedInspectionObjective, setSelectedInspectionObjective] = useState<string>(''); // State to hold the name of the selected folder
-  const [isGeneratingReport, setIsGeneratingReport] = useState<boolean>(false); // New state for loading indicator
+  const [newInspectionObjective, setNewInspectionObjective] = useState('');
+  const [inspectionType, setInspectionType] = useState('Preventiva');
+  const [inspectionDate, setInspectionDate] = useState('');
+  const [inspectionResponsible, setInspectionResponsible] = useState('');
+  const [selectedInspectionToSave, setSelectedInspectionToSave] = useState<string>('');
+  const [showCreateInspectionModal, setShowCreateInspectionModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState<boolean>(false);
+  const [selectedInspectionImages, setSelectedInspectionImages] = useState<IImage[]>([]);
+  const [selectedInspectionObjective, setSelectedInspectionObjective] = useState<string>('');
+  const [selectedInspectionId, setSelectedInspectionId] = useState<string | null>(null);
+  const [isGeneratingReport, setIsGeneratingReport] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState<Partial<IProject>>({});
+  const [showEditInspectionModal, setShowEditInspectionModal] = useState(false);
+  const [editingInspection, setEditingInspection] = useState<IInspection | null>(null);
 
   const handleInspectionClick = (inspection: IInspection) => {
     setSelectedInspectionImages(inspection.images);
-    setSelectedInspectionObjective(inspection.inspectionObjective); // Usar o objetivo como nome para o modal
+    setSelectedInspectionObjective(inspection.inspectionObjective);
+    setSelectedInspectionId(inspection.id);
     setShowImageModal(true);
+  };
+
+  const handleUpdateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!project?.id) return;
+
+    try {
+      const response = await api.put(`/projects/${project.id}`, editFormData);
+      setProject(response.data);
+      fetchProject();
+      setShowEditModal(false);
+      alert('Projeto atualizado com sucesso!');
+    } catch (err) {
+      console.error('Erro ao atualizar o projeto:', err);
+      const errorMessage = (err as any).response?.data?.error || 'Erro desconhecido';
+      setError(`Erro ao atualizar o projeto: ${errorMessage}`);
+    }
+  };
+
+  const openEditModal = () => {
+    if (project) {
+      setEditFormData({
+        name: project.name,
+        address: project.address,
+        type: project.type,
+        responsible: project.responsible,
+        buildingYear: project.buildingYear,
+        builtArea: project.builtArea,
+        facadeTypology: project.facadeTypology,
+        roofTypology: project.roofTypology,
+        buildingAcronym: project.buildingAcronym,
+        unitDirector: project.unitDirector,
+      });
+    }
+    setShowEditModal(true);
+  };
+
+  const openEditInspectionModal = (inspection: IInspection) => {
+    setEditingInspection(inspection);
+    setShowEditInspectionModal(true);
+  };
+
+  const handleUpdateInspection = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!project || !editingInspection) return;
+
+    const updatedInspections = project.inspections?.map(insp =>
+      insp.id === editingInspection.id ? editingInspection : insp
+    );
+
+    try {
+      await api.put(`/projects/${project.id}`, { inspections: updatedInspections });
+      setShowEditInspectionModal(false);
+      setEditingInspection(null);
+      fetchProject();
+      alert('Inspeção atualizada com sucesso!');
+    } catch (err) {
+      console.error('Erro ao atualizar a inspeção:', err);
+      setError('Erro ao atualizar a inspeção.');
+    }
   };
 
   const handleCreateInspection = async () => {
@@ -91,18 +164,17 @@ const ProjectView: React.FC = () => {
         inspectionResponsible,
       });
       alert(`Inspeção "${newInspectionObjective}" criada com sucesso!`);
-      // Resetar estados do formulário de inspeção
       setNewInspectionObjective('');
       setInspectionType('Preventiva');
       setInspectionDate('');
       setInspectionResponsible('');
-      setShowCreateInspectionModal(false); // Fechar o modal
-      fetchProject(); // Atualizar a lista de inspeções
+      setShowCreateInspectionModal(false);
+      fetchProject();
     } catch (err) {
       console.error('Erro ao criar inspeção:', err);
-      const errorMessage = err.response?.data?.error || err.message || 'Erro desconhecido ao criar inspeção.';
+      const errorMessage = (err as any).response?.data?.error || 'Erro desconhecido';
       setError(`Erro ao criar inspeção: ${errorMessage}`);
-      alert(`Erro ao criar inspeção: ${errorMessage}`); // Adicionar alerta para depuração
+      alert(`Erro ao criar inspeção: ${errorMessage}`);
     }
   };
 
@@ -112,16 +184,15 @@ const ProjectView: React.FC = () => {
       return;
     }
 
-    if (window.confirm(`Tem certeza que deseja excluir esta inspeção e todas as suas imagens?`)) {
+    if (window.confirm('Tem certeza que deseja excluir esta inspeção e todas as suas imagens?')) {
       try {
         await api.delete(`/projects/${project.id}/inspections/${inspectionId}`);
-        alert(`Inspeção excluída com sucesso!`);
+        alert('Inspeção excluída com sucesso!');
         fetchProject();
-        // Close modal if the deleted inspection was the one being viewed
-        if (showImageModal && selectedInspectionToSave === inspectionId) { // Assumindo que selectedInspectionToSave guarda o ID
+        if (showImageModal && selectedInspectionId === inspectionId) {
           setShowImageModal(false);
           setSelectedInspectionImages([]);
-          setSelectedInspectionObjective(''); // Manter vazio ou limpar
+          setSelectedInspectionObjective('');
         }
       } catch (err) {
         console.error('Erro ao excluir inspeção:', err);
@@ -130,21 +201,19 @@ const ProjectView: React.FC = () => {
     }
   };
 
-
   const handleDeleteImageFromInspection = async (imageUrl: string, inspectionId: string) => {
     if (!project?.id) {
       setError('ID do projeto ausente.');
       return;
     }
 
-    if (window.confirm(`Tem certeza que deseja excluir esta imagem desta inspeção?`)) {
+    if (window.confirm('Tem certeza que deseja excluir esta imagem desta inspeção?')) {
       try {
         const imageName = path.basename(imageUrl);
         await api.delete(`/projects/${project.id}/inspections/${inspectionId}/images/${imageName}`);
         alert('Imagem excluída com sucesso da inspeção!');
         fetchProject();
-        // Update the modal's image list if it's open and showing images from this inspection
-        if (showImageModal && selectedInspectionToSave === inspectionId) {
+        if (showImageModal && selectedInspectionId === inspectionId) {
           setSelectedInspectionImages(prevImages => prevImages.filter(img => img.url !== imageUrl));
         }
       } catch (err) {
@@ -162,12 +231,11 @@ const ProjectView: React.FC = () => {
     formData.append('image', selectedFile);
 
     try {
-      const response = await api.post('/projects/upload-and-process-image', formData); // Expect JSON response
-      setProcessedImageResponse({ // Update state to store both base64 and detections
+      const response = await api.post('/projects/upload-and-process-image', formData);
+      setProcessedImageResponse({
         base64: `data:image/png;base64,${response.data.processed_image_base64}`,
         detections: response.data.detections,
       });
-      // setProcessedImageUrl(`data:image/png;base64,${response.data.processed_image_base64}`); // This state is now redundant for actual image data
     } catch (err) {
       console.error('Erro ao processar a imagem:', err);
       setError('Erro ao processar a imagem.');
@@ -189,16 +257,16 @@ const ProjectView: React.FC = () => {
       const requestBody = {
         imageData: processedImageResponse.base64,
         projectId: project.id,
-        inspectionId: selectedInspectionToSave, // Usar o novo nome do campo
+        inspectionId: selectedInspectionToSave,
         detections: JSON.stringify(processedImageResponse.detections),
       };
 
       await api.post(`/projects/${project.id}/save-processed-image`, requestBody);
 
       alert('Imagem salva com sucesso na inspeção!');
-      setProcessedImageResponse(null); // Clear processed image and detections
-      setSelectedInspectionToSave(''); // Clear selected inspection
-      fetchProject(); // Re-fetch project data to update saved images list
+      setProcessedImageResponse(null);
+      setSelectedInspectionToSave('');
+      fetchProject();
     } catch (err) {
       console.error('Erro ao salvar imagem na inspeção:', err);
       setError('Erro ao salvar imagem na inspeção.');
@@ -208,7 +276,7 @@ const ProjectView: React.FC = () => {
   };
 
   const handleDownloadImage = () => {
-    if (processedImageResponse?.base64) { // Updated to use processedImageResponse
+    if (processedImageResponse?.base64) {
       const link = document.createElement('a');
       link.href = processedImageResponse.base64;
       link.download = `processed_image_${Date.now()}.png`;
@@ -231,14 +299,10 @@ const ProjectView: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    if (id) { // Only fetch project if ID is available
+    if (id) {
       fetchProject();
     }
-  }, [fetchProject, id]); // Add 'id' to dependency array
-
-  console.log("Project state:", project);
-  console.log("Error state:", error);
-  console.log("Loading state:", loading);
+  }, [fetchProject, id]);
 
   const handleGenerateInspectionPdfReport = async (projectId: string, inspectionId: string) => {
     if (!projectId || !inspectionId) {
@@ -282,12 +346,10 @@ const ProjectView: React.FC = () => {
     setError(null);
 
     try {
-      // Make API call to backend endpoint for PDF generation
       const response = await api.get(`/projects/${project.id}/report/pdf`, {
-        responseType: 'blob', // Important: specify responseType as 'blob'
+        responseType: 'blob',
       });
 
-      // Create a blob URL and trigger download
       const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
       const link = document.createElement('a');
       link.href = url;
@@ -295,7 +357,7 @@ const ProjectView: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url); // Clean up the URL
+      window.URL.revokeObjectURL(url);
 
       alert('Relatório PDF gerado com sucesso!');
     } catch (err) {
@@ -328,14 +390,19 @@ const ProjectView: React.FC = () => {
     <Container fluid className="project-view-container">
       <Row className="align-items-center my-4 project-header">
         <Col>
-          <h1 className="project-title">{project.name}</h1>
+          <h1 className="project-title">
+            {project.name}
+            <Button variant="link" onClick={openEditModal} className="ms-2">
+              <FaCog />
+            </Button>
+          </h1>
         </Col>
         <Col xs="auto">
           <Button variant="primary" onClick={() => navigate(`/projetos/${id}/dashboard`)} className="me-2">
             Dashboard
           </Button>
           <Button
-            variant="info" // Cor para distinguir
+            variant="info"
             onClick={handleGeneratePdfReport}
             disabled={isGeneratingReport}
           >
@@ -363,7 +430,7 @@ const ProjectView: React.FC = () => {
                 </Button>
               </div>
 
-              {processedImageResponse && ( // Use processedImageResponse for display
+              {processedImageResponse && (
                 <div className="image-preview-container">
                   <h5>Imagem Processada:</h5>
                   <img src={processedImageResponse.base64} alt="Processed" />
@@ -386,7 +453,7 @@ const ProjectView: React.FC = () => {
                     variant="success"
                     onClick={handleSaveProcessedImage}
                     disabled={savingImage || !selectedInspectionToSave}
-                    className="mt-3 me-2" // Added me-2 for margin-right
+                    className="mt-3 me-2"
                   >
                     {savingImage ? 'Salvando...' : 'Salvar no Projeto'}
                   </Button>
@@ -410,18 +477,17 @@ const ProjectView: React.FC = () => {
                 </Button>
               </Card.Title>
 
-
               {project.inspections && project.inspections.length > 0 ? (
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-                  {project.inspections.map((inspection, inspectionIndex) => (
+                  {project.inspections.map((inspection) => (
                     <Col key={inspection.id}>
                       <Card
-                        className="text-center folder-card" // Mantendo folder-card para estilo, mas representa inspeção
+                        className="text-center folder-card"
                         onClick={() => handleInspectionClick(inspection)}
                         style={{ cursor: 'pointer' }}
                       >
                         <Card.Body>
-                          <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📋</div> {/* Ícone de inspeção */}
+                          <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📋</div>
                           <Card.Title>{inspection.inspectionObjective}</Card.Title>
                           <Card.Text>
                             Tipo: {inspection.inspectionType} <br />
@@ -432,10 +498,21 @@ const ProjectView: React.FC = () => {
                         </Card.Body>
                         <Card.Footer>
                           <Button
+                            variant="light"
+                            size="sm"
+                            className="me-2"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openEditInspectionModal(inspection);
+                            }}
+                          >
+                            <FaPencilAlt />
+                          </Button>
+                          <Button
                             variant="secondary"
                             size="sm"
                             onClick={(e) => {
-                              e.stopPropagation(); // Previne que o card seja clicado quando o botão é clicado
+                              e.stopPropagation();
                               handleDeleteInspection(inspection.id);
                             }}
                           >
@@ -464,13 +541,12 @@ const ProjectView: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Modal para Criar Nova Inspeção */}
       <Modal show={showCreateInspectionModal} onHide={() => setShowCreateInspectionModal(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>Criar Nova Inspeção</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleCreateInspection}>
+          <Form onSubmit={(e) => { e.preventDefault(); handleCreateInspection(); }}>
             <Form.Group className="mb-3">
               <Form.Label>Tipo de Inspeção</Form.Label>
               <Form.Select value={inspectionType} onChange={e => setInspectionType(e.target.value)}>
@@ -478,7 +554,6 @@ const ProjectView: React.FC = () => {
                 <option value="Corretiva">Corretiva</option>
               </Form.Select>
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Objetivo da Inspeção</Form.Label>
               <Form.Control
@@ -489,7 +564,6 @@ const ProjectView: React.FC = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Data da Inspeção</Form.Label>
               <Form.Control
@@ -499,7 +573,6 @@ const ProjectView: React.FC = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Responsável pela Inspeção</Form.Label>
               <Form.Control
@@ -510,7 +583,6 @@ const ProjectView: React.FC = () => {
                 required
               />
             </Form.Group>
-            
             <Button variant="primary" type="submit" disabled={!newInspectionObjective.trim() || !inspectionDate || !inspectionResponsible.trim()}>
               Criar Inspeção
             </Button>
@@ -518,7 +590,6 @@ const ProjectView: React.FC = () => {
         </Modal.Body>
       </Modal>
 
-      {/* Modal para exibir imagens da pasta selecionada */}
       <Modal show={showImageModal} onHide={() => setShowImageModal(false)} size="lg" className="image-modal">
         <Modal.Header closeButton>
           <Modal.Title>Imagens em "{selectedInspectionObjective}"</Modal.Title>
@@ -531,7 +602,6 @@ const ProjectView: React.FC = () => {
                   <Card>
                     {(() => {
                       const imageUrlForDisplay = image.url ? `http://localhost:3001${image.url}` : '';
-                      console.log(`Attempting to load image ${index}: ${imageUrlForDisplay}`);
                       return imageUrlForDisplay ? (
                         <Card.Img variant="top" src={imageUrlForDisplay} alt={`Imagem ${index}`} />
                       ) : (
@@ -549,7 +619,9 @@ const ProjectView: React.FC = () => {
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
-                          image.url && handleDeleteImageFromInspection(image.url, selectedInspectionObjective);
+                          if (image.url && selectedInspectionId) {
+                            handleDeleteImageFromInspection(image.url, selectedInspectionId);
+                          }
                         }}
                         disabled={!image.url}
                       >
@@ -568,7 +640,7 @@ const ProjectView: React.FC = () => {
           {isGeneratingReport && <p className="text-center w-100">Gerando relatório...</p>}
           <Button
             variant="primary"
-            onClick={() => project && handleGenerateInspectionPdfReport(project.id, selectedInspectionObjective)}
+            onClick={() => project && selectedInspectionId && handleGenerateInspectionPdfReport(project.id, selectedInspectionId)}
             disabled={isGeneratingReport}
           >
             {isGeneratingReport ? 'Gerando Relatório...' : 'Gerar Relatório da Inspeção'}
@@ -578,6 +650,100 @@ const ProjectView: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Projeto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleUpdateProject}>
+            <Form.Group className="mb-3">
+              <Form.Label>Nome do Projeto</Form.Label>
+              <Form.Control
+                type="text"
+                value={editFormData.name || ''}
+                onChange={e => setEditFormData({ ...editFormData, name: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Endereço</Form.Label>
+              <Form.Control
+                type="text"
+                value={editFormData.address || ''}
+                onChange={e => setEditFormData({ ...editFormData, address: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Tipo</Form.Label>
+              <Form.Control
+                type="text"
+                value={editFormData.type || ''}
+                onChange={e => setEditFormData({ ...editFormData, type: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Responsável</Form.Label>
+              <Form.Control
+                type="text"
+                value={editFormData.responsible || ''}
+                onChange={e => setEditFormData({ ...editFormData, responsible: e.target.value })}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Salvar Alterações
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal para Editar Inspeção */}
+      <Modal show={showEditInspectionModal} onHide={() => setShowEditInspectionModal(false)} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Inspeção</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editingInspection && (
+            <Form onSubmit={handleUpdateInspection}>
+              <Form.Group className="mb-3">
+                <Form.Label>Objetivo da Inspeção</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={editingInspection.inspectionObjective}
+                  onChange={e => setEditingInspection({ ...editingInspection, inspectionObjective: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Tipo</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={editingInspection.inspectionType}
+                  onChange={e => setEditingInspection({ ...editingInspection, inspectionType: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Data</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={editingInspection.inspectionDate}
+                  onChange={e => setEditingInspection({ ...editingInspection, inspectionDate: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Responsável</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={editingInspection.inspectionResponsible}
+                  onChange={e => setEditingInspection({ ...editingInspection, inspectionResponsible: e.target.value })}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Salvar Alterações
+              </Button>
+            </Form>
+          )}
+        </Modal.Body>
+      </Modal>
+
     </Container>
   );
 };

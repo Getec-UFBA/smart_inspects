@@ -13,7 +13,7 @@
       "password": "$2a$10$UvT8GfzP1Vq2AMrZp9lTnuN.n0bFG2Re6sJYVNK8LMpfoLUIMN8oS",
       "securityQuestion": "Qual o nome do seu primeiro animal de estimação?",
       "securityAnswer": "$2a$10$wdThDadbGwHEfI0X4JA5UeydhTU5alT9n2raYoCpz.7svYGlqX0DS",
-      "avatarUrl": "avatars/7c1292c7562519436b61-foto_mat.jpeg",
+      "avatarUrl": "avatars/0ce602e8a78a7ca218cb-foto_mat.jpeg",
       "name": "Matheus Breno ",
       "company": "UFBA",
       "bio": "estudante"
@@ -46,244 +46,59 @@
   ],
   "projects": [
     {
-      "id": "2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0",
-      "userId": "1e862e58-8c5a-4e3e-9e7c-1b7f0f6a2e4d",
-      "name": "Projeto de Teste",
-      "address": "Rua teste n 00",
-      "type": "Prédio teste",
-      "responsible": "Fulano de tal",
-      "coverImageUrl": "c0734113d12b2a3ec82d-BIM_como_ferramenta_de_inovacao_para_projetos.webp",
-      "bimModelUrl": "0143a58db3c828be8bd1-BIM_como_ferramenta_de_inovacao_para_projetos.webp",
-      "modules": {
-        "progress": true,
-        "security": true,
-        "maintenance": false
-      },
-      "oae": [],
-      "processedImages": [
-        {
-          "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/1770333957067_processed_image_1770333957022.png",
-          "detections": []
-        },
-        {
-          "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/1770334149847_processed_image_1770334149795.png",
-          "detections": []
-        },
-        {
-          "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/1770334454807_processed_image_1770334454762.png",
-          "detections": []
-        }
-      ],
-      "folders": [
-        {
-          "name": "Teste",
-          "images": [
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Teste/1770336786152_processed_image_1770336786104.png",
-              "detections": [
-                {
-                  "class_name": "C03",
-                  "confidence": 0.7275727391242981,
-                  "box": {
-                    "x1": 273.0868225097656,
-                    "y1": 908.978271484375,
-                    "x2": 462.37286376953125,
-                    "y2": 1151.941162109375
-                  }
-                }
-              ]
-            },
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Teste/1770338049303_processed_image_1770338048976.png",
-              "detections": [
-                {
-                  "class_name": "C03",
-                  "confidence": 0.5672724843025208,
-                  "box": {
-                    "x1": 4190.3046875,
-                    "y1": 1425.8441162109375,
-                    "x2": 4684.36767578125,
-                    "y2": 1900.2216796875
-                  }
-                }
-              ]
-            },
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Teste/1770516020341_processed_image_1770516020123.png",
-              "detections": []
-            }
-          ]
-        },
-        {
-          "name": "Ortofoto",
-          "images": [
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Ortofoto/1770603994003.png",
-              "detections": [
-                {
-                  "class_name": "C03",
-                  "confidence": 0.7686419486999512,
-                  "box": {
-                    "x1": 271.9066467285156,
-                    "y1": 907.4501953125,
-                    "x2": 462.57696533203125,
-                    "y2": 1151.759033203125
-                  }
-                }
-              ]
-            },
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Ortofoto/1770604121483.png",
-              "detections": [
-                {
-                  "class_name": "C04",
-                  "confidence": 0.47954094409942627,
-                  "box": {
-                    "x1": 2827.50048828125,
-                    "y1": 5391.02783203125,
-                    "x2": 3275.849365234375,
-                    "y2": 5766.1572265625
-                  }
-                },
-                {
-                  "class_name": "C02",
-                  "confidence": 0.4116845428943634,
-                  "box": {
-                    "x1": 4748.10400390625,
-                    "y1": 4095.161376953125,
-                    "x2": 5299.9189453125,
-                    "y2": 4599.9755859375
-                  }
-                },
-                {
-                  "class_name": "C05",
-                  "confidence": 0.2514616847038269,
-                  "box": {
-                    "x1": 3760.552978515625,
-                    "y1": 4208.7001953125,
-                    "x2": 4254.435546875,
-                    "y2": 4629.45849609375
-                  }
-                }
-              ]
-            },
-            {
-              "url": "/files/processed_images/2d52dbe1-d2a0-4e89-9a3d-503cd4d8e8a0/Ortofoto/1770661337133.png",
-              "detections": [
-                {
-                  "class_name": "C03",
-                  "confidence": 0.6756912469863892,
-                  "box": {
-                    "x1": 159.38278198242188,
-                    "y1": 4.275001525878906,
-                    "x2": 228.31643676757812,
-                    "y2": 87.9127426147461
-                  }
-                },
-                {
-                  "class_name": "C02",
-                  "confidence": 0.2531088590621948,
-                  "box": {
-                    "x1": 530.425537109375,
-                    "y1": 437.73406982421875,
-                    "x2": 542.314453125,
-                    "y2": 447.681640625
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "e6bb943a-65a5-4ebd-b8a0-2d18a013a55e",
+      "id": "79023860-c9b2-4c36-a876-632a2b484c92",
       "userId": "01a35064-cb07-4273-a7e1-fab83c948986",
-      "name": "Escola de Música da Ufba",
+      "name": "Escola de musica da UFBA",
       "address": "Av. Araújo Pinho, 55 - Canela, Salvador - BA, 40160-060",
       "type": "",
-      "responsible": "tecnico beltrano",
-      "coverImageUrl": "4adf974a6599470a1b8c-escola_de_musica.jpeg",
-      "bimModelUrl": "9213df49d1d4b15850ca-escola_de_musica.jpeg",
+      "responsible": "Tecnico Pedro joão",
+      "coverImageUrl": "62d69d521906cab74587-escola_de_musica.jpeg",
+      "bimModelUrl": "88cf5647730899944668-escola_de_musica.jpeg",
       "modules": {
         "progress": false,
         "security": false,
         "maintenance": true
       },
       "oae": [],
-      "buildingYear": "",
-      "builtArea": "1200",
-      "facadeTypology": "",
-      "roofTypology": "",
-      "buildingAcronym": "EMUSUFBA",
-      "unitDirector": "professor dr fulano",
       "inspections": [
         {
-          "id": "94f54cbe-fbef-4713-bafb-24332df1af0d",
+          "id": "6677ff1f-6bd8-4cb1-b70a-86979aa618ba",
           "inspectionType": "Preventiva",
-          "inspectionObjective": "Verificar anomalias",
-          "inspectionDate": "2026-02-05",
+          "inspectionObjective": "Verificação anomalias",
+          "inspectionDate": "2026-02-04",
           "inspectionResponsible": "Eng Alisson",
           "images": [
             {
-              "url": "/files/processed_images/e6bb943a-65a5-4ebd-b8a0-2d18a013a55e/94f54cbe-fbef-4713-bafb-24332df1af0d/1770688599217.png",
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/1770924749815.png",
               "detections": [
                 {
-                  "class_name": "C03",
-                  "confidence": 0.6756912469863892,
+                  "class_name": "C02",
+                  "confidence": 0.6532303690910339,
                   "box": {
-                    "x1": 159.38278198242188,
-                    "y1": 4.275001525878906,
-                    "x2": 228.31643676757812,
-                    "y2": 87.9127426147461
+                    "x1": 739.5909423828125,
+                    "y1": 1369.467529296875,
+                    "x2": 894.8146362304688,
+                    "y2": 1459.19580078125
                   }
                 },
                 {
                   "class_name": "C02",
-                  "confidence": 0.2531088590621948,
+                  "confidence": 0.44502967596054077,
                   "box": {
-                    "x1": 530.425537109375,
-                    "y1": 437.73406982421875,
-                    "x2": 542.314453125,
-                    "y2": 447.681640625
-                  }
-                }
-              ]
-            },
-            {
-              "url": "/files/processed_images/e6bb943a-65a5-4ebd-b8a0-2d18a013a55e/94f54cbe-fbef-4713-bafb-24332df1af0d/1770689053656.png",
-              "detections": []
-            }
-          ]
-        },
-        {
-          "id": "3fa8e5a7-6363-40a5-8057-7af66224e758",
-          "inspectionType": "Preventiva",
-          "inspectionObjective": "teste",
-          "inspectionDate": "2026-02-19",
-          "inspectionResponsible": "ccc",
-          "images": [
-            {
-              "url": "/files/processed_images/e6bb943a-65a5-4ebd-b8a0-2d18a013a55e/3fa8e5a7-6363-40a5-8057-7af66224e758/1770845272203.png",
-              "detections": [
-                {
-                  "class_name": "C03",
-                  "confidence": 0.6756912469863892,
-                  "box": {
-                    "x1": 159.38278198242188,
-                    "y1": 4.275001525878906,
-                    "x2": 228.31643676757812,
-                    "y2": 87.9127426147461
+                    "x1": 934.4906005859375,
+                    "y1": 1383.753662109375,
+                    "x2": 1059.9796142578125,
+                    "y2": 1456.0732421875
                   }
                 },
                 {
-                  "class_name": "C02",
-                  "confidence": 0.2531088590621948,
+                  "class_name": "C04",
+                  "confidence": 0.3320867717266083,
                   "box": {
-                    "x1": 530.425537109375,
-                    "y1": 437.73406982421875,
-                    "x2": 542.314453125,
-                    "y2": 447.681640625
+                    "x1": 2992.0146484375,
+                    "y1": 2450.468017578125,
+                    "x2": 3070.629638671875,
+                    "y2": 2510.352783203125
                   }
                 }
               ]

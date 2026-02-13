@@ -14,6 +14,7 @@ projectRouter.use(authenticateToken);
 
 projectRouter.get('/', projectController.index);
 projectRouter.get('/:id', projectController.show); // Rota para buscar um projeto por ID
+projectRouter.put('/:id', authorizeRole(['admin']), projectController.update);
 projectRouter.delete('/:id', authorizeRole(['admin']), projectController.delete); // Protegida para admin
 
 // New route for uploading and processing an image

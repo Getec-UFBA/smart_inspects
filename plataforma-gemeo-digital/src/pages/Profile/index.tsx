@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 import './style.css';
-
-const API_URL = 'http://localhost:3001';
 
 const Profile: React.FC = () => {
   const { user, token, updateUser } = useAuth(); // Pega a função updateUser
@@ -23,7 +21,7 @@ const Profile: React.FC = () => {
       setBio(user.bio || '');
       if (user.avatarUrl) {
         // Assume que o avatarUrl no contexto já é o caminho relativo
-        setAvatarUrl(`${API_URL}/files/${user.avatarUrl}`);
+        setAvatarUrl(`http://localhost:3001/files/${user.avatarUrl}`);
       }
     }
   }, [user]);
@@ -34,11 +32,11 @@ const Profile: React.FC = () => {
       data.append('avatar', e.target.files[0]);
 
       try {
-        const response = await axios.patch(`${API_URL}/profile/avatar`, data);
+        const response = await api.patch(`/profile/avatar`, data);
         const updatedUser = response.data;
 
         if (updatedUser.avatarUrl) {
-          setAvatarUrl(`${API_URL}/files/${updatedUser.avatarUrl}`);
+          setAvatarUrl(`http://localhost:3001/files/${updatedUser.avatarUrl}`);
         }
         // Atualiza o usuário no contexto global
         updateUser(updatedUser);
@@ -54,7 +52,7 @@ const Profile: React.FC = () => {
     setError(null);
     setSuccess(null);
     try {
-      const response = await axios.put(`${API_URL}/profile/me`, { name, company, bio });
+      const response = await api.put(`/profile/me`, { name, company, bio });
       // Atualiza o usuário no contexto global
       updateUser(response.data);
       setSuccess('Perfil atualizado com sucesso!');

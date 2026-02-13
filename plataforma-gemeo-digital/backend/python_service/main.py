@@ -11,8 +11,9 @@ app = FastAPI()
 
 # --- IMPORTANT ---
 # Please update these paths to point to your actual model files.
-BEST_MODEL_PATH = os.getenv("BEST_MODEL_PATH", "best.pt")
-LAST_MODEL_PATH = os.getenv("LAST_MODEL_PATH", "last.pt")
+script_dir = os.path.dirname(os.path.realpath(__file__))
+BEST_MODEL_PATH = os.getenv("BEST_MODEL_PATH", os.path.join(script_dir, '../../best.pt'))
+LAST_MODEL_PATH = os.getenv("LAST_MODEL_PATH", os.path.join(script_dir, '../../last.pt'))
 
 # Load the YOLO models
 # The user can choose which model to use by changing the path

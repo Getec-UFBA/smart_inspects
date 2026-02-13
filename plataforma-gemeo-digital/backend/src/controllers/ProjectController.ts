@@ -84,6 +84,26 @@ class ProjectController {
     }
   }
 
+  public async update(req: AuthRequest, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const data = req.body;
+
+    // Ensure userId is not updated
+    delete data.userId;
+
+    const projectService = new ProjectService();
+
+    try {
+      const updatedProject = await projectService.update({ projectId: id, data });
+      return res.json(updatedProject);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  }
+
   public async delete(req: AuthRequest, res: Response): Promise<Response> {
     const userRole = req.userRole;
     const { id } = req.params;
