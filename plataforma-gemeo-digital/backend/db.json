@@ -102,6 +102,163 @@
                   }
                 }
               ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/580e0b69-4700-4408-a971-f3b39fa07ac5.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/ebf12511-a40a-4466-abae-209a2e1e2058.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7112971544265747,
+                  "box": {
+                    "x1": 1778.1778564453125,
+                    "y1": 1141.2012939453125,
+                    "x2": 1894.222900390625,
+                    "y2": 1215.033935546875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7005548477172852,
+                  "box": {
+                    "x1": 1590.0167236328125,
+                    "y1": 1135.2127685546875,
+                    "x2": 1732.28955078125,
+                    "y2": 1209.5994873046875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.2671290934085846,
+                  "box": {
+                    "x1": 1581.6978759765625,
+                    "y1": 1147.5079345703125,
+                    "x2": 1735.202392578125,
+                    "y2": 1232.34765625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f9c2f611-57cc-482a-8af3-1f1e2aabc24e.jpg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.45970380306243896,
+                  "box": {
+                    "x1": 1502.8076171875,
+                    "y1": 2107.732666015625,
+                    "x2": 2048.746826171875,
+                    "y2": 2323.00732421875
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.25693851709365845,
+                  "box": {
+                    "x1": 1494.839111328125,
+                    "y1": 2100.5478515625,
+                    "x2": 2155.829345703125,
+                    "y2": 2355.986328125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/32aa7719-8827-443e-be9a-f5ddf9dc4e60.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.5500451922416687,
+                  "box": {
+                    "x1": 2847.863037109375,
+                    "y1": 1174.5457763671875,
+                    "x2": 2942.675048828125,
+                    "y2": 1238.5377197265625
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.3709496259689331,
+                  "box": {
+                    "x1": 2641.1171875,
+                    "y1": 1153.5982666015625,
+                    "x2": 2778.533935546875,
+                    "y2": 1243.931396484375
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/7825d21d-73f6-488d-a12e-7428a10c207c.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/e134b64f-efdc-4d99-af91-149e74910905.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.6176910996437073,
+                  "box": {
+                    "x1": 1776.7259521484375,
+                    "y1": 1134.056640625,
+                    "x2": 1896.0096435546875,
+                    "y2": 1207.655517578125
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.4179874360561371,
+                  "box": {
+                    "x1": 1596.7266845703125,
+                    "y1": 1129.2156982421875,
+                    "x2": 1735.2249755859375,
+                    "y2": 1218.9049072265625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f5fcce95-1808-44a7-8b71-0ea1ffcfdccc.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f6c6b983-1860-4c8e-a8e7-28e1c5d95085.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/d5e5444b-a884-4674-b609-eec5a3a2adea.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/150e9ed9-4922-4524-a182-825786ec3133.jpg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2541174590587616,
+                  "box": {
+                    "x1": 3051.08154296875,
+                    "y1": 2104.01025390625,
+                    "x2": 3691.90673828125,
+                    "y2": 2435.465087890625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/329d4a88-8eb9-49d7-afc1-a5532cffd0ee.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/4f5d0ca4-aeab-413e-bc92-c2a8159292a0.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/efc64541-71d5-418a-b5e1-40dcde1476e1.jpg",
+              "detections": []
             }
           ]
         }

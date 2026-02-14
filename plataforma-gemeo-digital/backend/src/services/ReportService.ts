@@ -63,9 +63,19 @@ class ReportService {
 
     inspectionsToReport.forEach(inspection => {
         inspection.images.forEach(image => {
-          if (image.detections) {
-            totalDefects += image.detections.length;
-            image.detections.forEach(detection => {
+          let detections = image.detections;
+          if (typeof detections === 'string') {
+            try {
+              detections = JSON.parse(detections);
+            } catch (error) {
+              console.error('Error parsing detections string:', error);
+              detections = [];
+            }
+          }
+
+          if (detections && Array.isArray(detections)) {
+            totalDefects += detections.length;
+            detections.forEach(detection => {
               defectsByClass[detection.class_name] = (defectsByClass[detection.class_name] || 0) + 1;
             });
           }
@@ -92,8 +102,18 @@ class ReportService {
         let imagesHtml = '';
         if (inspection.images && inspection.images.length > 0) {
           imagesHtml = inspection.images.map(image => {
+            let detections = image.detections;
+            if (typeof detections === 'string') {
+              try {
+                detections = JSON.parse(detections);
+              } catch (error) {
+                console.error('Error parsing detections string:', error);
+                detections = [];
+              }
+            }
+
             let detectionsHtml = 'Nenhuma detecção.';
-            if (image.detections && image.detections.length > 0) {
+            if (detections && Array.isArray(detections) && detections.length > 0) {
               detectionsHtml = `
                 <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
                   <thead>
@@ -104,7 +124,7 @@ class ReportService {
                     </tr>
                   </thead>
                   <tbody>
-                    ${image.detections.map(det => `
+                    ${detections.map(det => `
                       <tr>
                         <td style="border: 1px solid #ddd; padding: 8px;">${det.class_name}</td>
                         <td style="border: 1px solid #ddd; padding: 8px;">${(det.confidence * 100).toFixed(2)}%</td>

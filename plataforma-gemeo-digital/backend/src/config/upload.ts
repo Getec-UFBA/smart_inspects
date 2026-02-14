@@ -1,11 +1,18 @@
 import multer from 'multer';
 import path from 'path';
 import crypto from 'crypto';
+import fs from 'fs';
 
+const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 const projectsUploadFolder = path.resolve(__dirname, '../../public/uploads/projects');
 const avatarsUploadFolder = path.resolve(__dirname, '../../public/uploads/avatars');
 
+if (!fs.existsSync(tmpFolder)) {
+  fs.mkdirSync(tmpFolder, { recursive: true });
+}
+
 export default {
+  tempDirectory: tmpFolder,
   projectsDirectory: projectsUploadFolder,
   avatarsDirectory: avatarsUploadFolder,
   storage: (directory: string) => multer.diskStorage({

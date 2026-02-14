@@ -12,48 +12,55 @@ const projectController = new ProjectController();
 // Todas as rotas de projeto precisam de autenticação
 projectRouter.use(authenticateToken);
 
-projectRouter.get('/', projectController.index);
-projectRouter.get('/:id', projectController.show); // Rota para buscar um projeto por ID
-projectRouter.put('/:id', authorizeRole(['admin']), projectController.update);
-projectRouter.delete('/:id', authorizeRole(['admin']), projectController.delete); // Protegida para admin
+projectRouter.get('/', projectController.index.bind(projectController));
+projectRouter.get('/:id', projectController.show.bind(projectController)); // Rota para buscar um projeto por ID
+projectRouter.put('/:id', authorizeRole(['admin']), projectController.update.bind(projectController));
+projectRouter.delete('/:id', authorizeRole(['admin']), projectController.delete.bind(projectController)); // Protegida para admin
 
-// New route for uploading and processing an image
+// New route for processing images for the results page
 projectRouter.post(
-  '/upload-and-process-image',
-  upload.single('image'),
-  projectController.uploadAndProcessImage
+  '/process-images-for-results',
+  upload.array('images', 50),
+  projectController.processImagesForResults.bind(projectController)
 );
 
-// New route for saving a processed image to the project
+// New route for saving a single processed image to an inspection
 projectRouter.post(
-  '/:id/save-processed-image',
-  projectController.saveProcessedImage
+  '/:projectId/inspections/:inspectionId/save-image',
+  projectController.saveImageToInspection.bind(projectController)
+);
+
+// New route for uploading multiple images to a specific inspection
+projectRouter.post(
+  '/:projectId/inspections/:inspectionId/upload-images',
+  upload.array('images', 50), // Accept up to 50 images in the 'images' field
+  projectController.uploadImagesToInspection.bind(projectController)
 );
 
 // New route for creating inspections
 projectRouter.post(
   '/:projectId/inspections',
   authorizeRole(['admin']), // Protect this route for admin users
-  projectController.createInspection
+  projectController.createInspection.bind(projectController)
 );
 
 // New route for deleting inspections
 projectRouter.delete(
   '/:projectId/inspections/:inspectionId',
   authorizeRole(['admin']), // Protect this route for admin users
-  projectController.deleteInspection
+  projectController.deleteInspection.bind(projectController)
 );
 
 // New route for deleting image from inspection
 projectRouter.delete(
   '/:projectId/inspections/:inspectionId/images/:imageName',
-  projectController.deleteImageFromInspection
+  projectController.deleteImageFromInspection.bind(projectController)
 );
 
 // New route for generating PDF inspection report
 projectRouter.get(
   '/:projectId/report/pdf/inspections/:inspectionId',
-  projectController.generateInspectionPdfReport
+  projectController.generateInspectionPdfReport.bind(projectController)
 );
 
 // Define os campos que o multer deve esperar
@@ -67,7 +74,7 @@ projectRouter.post(
   '/',
   authorizeRole(['admin']), // Protegida para admin
   uploadProjects.fields(uploadFields),
-  projectController.create
+  projectController.create.bind(projectController)
 );
 
 export default projectRouter;

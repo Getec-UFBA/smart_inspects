@@ -29,3 +29,12 @@ backend/public/uploads/
 
 # Arquivos de ambiente
 .env
+
+# Arquivos temporários e de cache
+tmp/
+backend/tmp/
+backend/python_service/venv/
+backend/python_service/__pycache__/
+
+# Modelos de IA
+*.pt

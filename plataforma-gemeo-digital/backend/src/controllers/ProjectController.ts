@@ -104,6 +104,7 @@ class ProjectController {
     }
   }
 
+
   public async delete(req: AuthRequest, res: Response): Promise<Response> {
     const userRole = req.userRole;
     const { id } = req.params;
@@ -125,116 +126,195 @@ class ProjectController {
     }
   }
 
-  public async uploadAndProcessImage(req: AuthRequest, res: Response): Promise<Response> {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No image file uploaded.' });
-    }
+  public async processImagesForResults(req: AuthRequest, res: Response): Promise<Response> {
+    const files = req.files as Express.Multer.File[];
 
-    const imagePath = req.file.path;
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: 'Nenhum arquivo de imagem enviado.' });
+    }
 
     const imageProcessingService = new ImageProcessingService();
-    try {
-      const processedImageResponse = await imageProcessingService.processImage(imagePath);
-      
-      // Clean up the uploaded file after processing
-      await fs.promises.unlink(imagePath);
+    const processedImages: IImage[] = [];
+    const errors: { fileName: string; error: string }[] = [];
 
-      return res.json(processedImageResponse); // Return JSON response
-    } catch (error) {
-      // Clean up the uploaded file in case of an error
-      await fs.promises.unlink(imagePath);
-
-      if (error instanceof Error) {
-        return res.status(500).json({ error: error.message });
+    for (const file of files) {
+      try {
+        const { processedImageUrl, detections } = await this.processImageFile(file.path, imageProcessingService);
+        processedImages.push({
+          url: processedImageUrl,
+          detections,
+        });
+        // Clean up original file
+        await fs.promises.unlink(file.path);
+      } catch (error) {
+        console.error(`Error processing file ${file.originalname}:`, error);
+        errors.push({ fileName: file.originalname, error: error instanceof Error ? error.message : 'Unknown error' });
+        // Clean up original file if processing failed
+        await fs.promises.unlink(file.path);
       }
-      return res.status(500).json({ error: 'Internal server error during image processing.' });
     }
+
+    if (errors.length > 0) {
+      return res.status(500).json({
+        message: 'Alguns arquivos não puderam ser processados.',
+        processed: processedImages,
+        errors: errors,
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Imagens processadas com sucesso.',
+      images: processedImages,
+    });
   }
 
-  public async saveProcessedImage(req: AuthRequest, res: Response): Promise<Response> {
-    const { id: projectId } = req.params;
-    const { inspectionId, detections: detectionsString, imageData } = req.body;
+  public async saveImageToInspection(req: AuthRequest, res: Response): Promise<Response> {
+    const { projectId, inspectionId } = req.params;
+    const { imageData, detections } = req.body;
 
     if (!imageData) {
-      console.error('No image data (base64) received in saveProcessedImage.');
       return res.status(400).json({ error: 'Nenhum dado de imagem (base64) enviado.' });
     }
 
-    if (!inspectionId) {
-      return res.status(400).json({ error: 'O ID da inspeção é obrigatório para salvar a imagem.' });
+    const projectService = new ProjectService();
+
+    try {
+      const newImage = await projectService.saveImageToInspection({
+        projectId,
+        inspectionId,
+        imageData,
+        detections: JSON.parse(detections),
+      });
+      return res.status(200).json({ message: 'Imagem salva com sucesso na inspeção.', image: newImage });
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  }
+
+  public async uploadImagesToInspection(req: AuthRequest, res: Response): Promise<Response> {
+    const { projectId, inspectionId } = req.params;
+    const files = req.files as Express.Multer.File[];
+
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: 'Nenhum arquivo de imagem enviado.' });
     }
 
-    let detections: IDetection[] | undefined;
-    if (detectionsString) {
-      try {
-        detections = JSON.parse(detectionsString);
-      } catch (e) {
-        console.error("Failed to parse detections string:", e);
-      }
+    if (!projectId || !inspectionId) {
+      // Clean up uploaded files if projectId or inspectionId are missing
+      await Promise.all(files.map(file => fs.promises.unlink(file.path)));
+      return res.status(400).json({ error: 'ID do projeto e ID da inspeção são obrigatórios.' });
     }
 
     const projectRepository = new ProjectRepository();
     const project = await projectRepository.findById(projectId);
 
     if (!project) {
-      console.error(`Project not found: ${projectId}`);
+      await Promise.all(files.map(file => fs.promises.unlink(file.path)));
       return res.status(404).json({ error: 'Projeto não encontrado.' });
     }
 
-    // Find the inspection
-    let targetInspection = project.inspections?.find(inspection => inspection.id === inspectionId);
+    const targetInspection = project.inspections?.find(inspection => inspection.id === inspectionId);
     if (!targetInspection) {
-      return res.status(404).json({ error: `Inspeção com ID "${inspectionId}" não encontrada.` });
+      await Promise.all(files.map(file => fs.promises.unlink(file.path)));
+      return res.status(404).json({ error: `Inspeção com ID "${inspectionId}" não encontrada no projeto "${projectId}".` });
     }
 
-    const processedImagesDir = path.resolve(
-      __dirname,
-      '..',
-      '..',
-      'public',
-      'uploads',
-      'processed_images',
-      projectId,
-      inspectionId // Usar o ID da inspeção como pasta para organizar
-    );
+    const imageProcessingService = new ImageProcessingService();
+    const processedImages: IImage[] = [];
+    const errors: { fileName: string; error: string }[] = [];
 
-    await fs.promises.mkdir(processedImagesDir, { recursive: true });
+    for (const file of files) {
+      const originalFilePath = file.path;
+      const fileExtension = path.extname(file.originalname);
+      const newFileName = `${Date.now()}-${file.filename}${fileExtension}`; // Use the Multer-generated name to ensure uniqueness
+      
+      const destinationDir = path.resolve(
+        uploadConfig.projectsDirectory, // Base directory for projects
+        '..', // Go up one level to 'uploads'
+        'processed_images',
+        projectId,
+        inspectionId
+      );
+      
+      const destinationPath = path.join(destinationDir, newFileName);
+      const relativePath = `/files/processed_images/${projectId}/${inspectionId}/${newFileName}`;
 
-    // Decodificar a base64 e salvar
-    const base64Data = imageData.replace(/^data:image\/png;base64,/, ""); // Remover o cabeçalho data URI
-    const imageBuffer = Buffer.from(base64Data, 'base64');
+      try {
+        await fs.promises.mkdir(destinationDir, { recursive: true });
+        await fs.promises.rename(originalFilePath, destinationPath); // Move the uploaded file
 
-    const newFileName = `${Date.now()}.png`; // Nome fixo ou gerar um nome melhor
-    const destinationPath = path.join(processedImagesDir, newFileName);
-    const relativePath = `/files/processed_images/${projectId}/${inspectionId}/${newFileName}`;
-
-    try {
-      await fs.promises.writeFile(destinationPath, imageBuffer); // Salvar o buffer no arquivo
-
-      const newImage: IImage = {
-        url: relativePath,
-        detections: detections
-      };
-
-      const updatedInspections = project.inspections?.map(inspection => {
-        if (inspection.id === inspectionId) {
-          return {
-            ...inspection,
-            images: [...inspection.images, newImage],
-          };
+        const processed = await this.processImageFile(destinationPath, imageProcessingService);
+        processedImages.push({
+          url: relativePath,
+          detections: processed.detections,
+        });
+      } catch (error) {
+        console.error(`Error processing file ${file.originalname}:`, error);
+        errors.push({ fileName: file.originalname, error: error instanceof Error ? error.message : 'Unknown error' });
+        // Attempt to clean up the moved file if processing failed
+        try {
+          await fs.promises.unlink(destinationPath);
+        } catch (cleanupError) {
+          console.error(`Failed to clean up ${destinationPath}:`, cleanupError);
         }
-        return inspection;
-      }) || []; // Se não houver inspeções, retorna array vazio
-
-      await projectRepository.update(projectId, { inspections: updatedInspections });
-
-      return res.status(200).json({ message: 'Imagem processada salva com sucesso na inspeção.', image: newImage });
-    } catch (error) {
-      console.error('Erro ao salvar imagem processada na inspeção:', error);
-      if (error instanceof Error) {
-        return res.status(500).json({ error: error.message });
       }
-      return res.status(500).json({ error: 'Erro interno do servidor ao salvar imagem processada.' });
+    }
+
+    if (processedImages.length > 0) {
+      try {
+        await new ProjectService().addImagesToInspection({
+          projectId,
+          inspectionId,
+          images: processedImages,
+        });
+      } catch (error) {
+        console.error('Error adding processed images to inspection:', error);
+        return res.status(500).json({ error: 'Erro ao salvar imagens processadas na inspeção.' });
+      }
+    }
+
+    if (errors.length > 0) {
+      return res.status(500).json({
+        message: 'Alguns arquivos não puderam ser processados.',
+        processed: processedImages,
+        errors: errors,
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Imagens processadas e salvas com sucesso na inspeção.',
+      images: processedImages,
+    });
+  }
+
+
+  // Helper function to process a single image file
+  private async processImageFile(imagePath: string, imageProcessingService: ImageProcessingService): Promise<{ processedImageUrl: string; detections: IDetection[] }> {
+    try {
+      const processedImageResponse = await imageProcessingService.processImage(imagePath);
+      const processedImageBuffer = Buffer.from(processedImageResponse.processed_image_base64, 'base64');
+      
+      const processedResultsFolder = path.resolve(uploadConfig.projectsDirectory, '..', 'processed_results');
+      if (!fs.existsSync(processedResultsFolder)) {
+        fs.mkdirSync(processedResultsFolder, { recursive: true });
+      }
+
+      const processedImageName = `processed-${path.basename(imagePath)}`;
+      const processedImagePath = path.join(processedResultsFolder, processedImageName);
+      await fs.promises.writeFile(processedImagePath, processedImageBuffer);
+
+      const processedImageUrl = `/files/processed_results/${processedImageName}`;
+
+      return {
+        processedImageUrl: processedImageUrl,
+        detections: processedImageResponse.detections,
+      };
+    } catch (error) {
+      console.error(`Error processing image ${imagePath}:`, error);
+      throw new Error(`Failed to process image ${imagePath}.`);
     }
   }
 

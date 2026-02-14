@@ -1,0 +1,22 @@
+.project-results-container {
+  padding: 2rem;
+}
+
+.project-results-container .card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.project-results-container .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.project-results-container .card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.project-results-container .card-body {
+  padding: 1rem;
+}

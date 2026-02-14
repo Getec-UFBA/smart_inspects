@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Modal, Alert } from 'react-bootstrap';
 import './style.css';
 import path from 'path-browserify';
-import { ThemeContext } from '../../contexts/ThemeContext';
 import { FaCog, FaPencilAlt } from 'react-icons/fa';
 
 interface IDetection {
@@ -55,15 +54,13 @@ const ProjectView: React.FC = () => {
   const [project, setProject] = useState<IProject | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [processing, setProcessing] = useState(false);
-  const [processedImageResponse, setProcessedImageResponse] = useState<{ base64: string; detections: IDetection[] } | null>(null);
-  const [savingImage, setSavingImage] = useState(false);
+  const [lastBatchId, setLastBatchId] = useState<string | null>(null);
   const [newInspectionObjective, setNewInspectionObjective] = useState('');
   const [inspectionType, setInspectionType] = useState('Preventiva');
   const [inspectionDate, setInspectionDate] = useState('');
   const [inspectionResponsible, setInspectionResponsible] = useState('');
-  const [selectedInspectionToSave, setSelectedInspectionToSave] = useState<string>('');
   const [showCreateInspectionModal, setShowCreateInspectionModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState<boolean>(false);
   const [selectedInspectionImages, setSelectedInspectionImages] = useState<IImage[]>([]);
@@ -223,66 +220,28 @@ const ProjectView: React.FC = () => {
     }
   };
 
-  const handleProcessImage = async () => {
-    if (!selectedFile) return;
+  const handleProcessImages = async () => {
+    if (selectedFiles.length === 0 || !project) return;
 
     setProcessing(true);
+    setError(null);
     const formData = new FormData();
-    formData.append('image', selectedFile);
+    selectedFiles.forEach(file => {
+      formData.append('images', file);
+    });
 
     try {
-      const response = await api.post('/projects/upload-and-process-image', formData);
-      setProcessedImageResponse({
-        base64: `data:image/png;base64,${response.data.processed_image_base64}`,
-        detections: response.data.detections,
-      });
+      const response = await api.post('/projects/process-images-for-results', formData);
+      setSelectedFiles([]);
+      alert('Imagens processadas com sucesso!');
+      navigate(`/projetos/${project.id}/results`, { state: { processedImages: response.data.images } });
     } catch (err) {
-      console.error('Erro ao processar a imagem:', err);
-      setError('Erro ao processar a imagem.');
+      console.error('Erro ao processar imagens:', err);
+      const errorMessage = (err as any).response?.data?.error || 'Erro desconhecido ao processar imagens.';
+      setError(errorMessage);
+      alert(`Ocorreu um erro ao enviar as imagens: ${errorMessage}`);
     } finally {
       setProcessing(false);
-    }
-  };
-
-  const handleSaveProcessedImage = async () => {
-    if (!processedImageResponse || !project?.id || !selectedInspectionToSave) {
-      setError('Nenhuma imagem processada para salvar, ID do projeto ausente ou inspeção não selecionada.');
-      return;
-    }
-
-    setSavingImage(true);
-    setError(null);
-
-    try {
-      const requestBody = {
-        imageData: processedImageResponse.base64,
-        projectId: project.id,
-        inspectionId: selectedInspectionToSave,
-        detections: JSON.stringify(processedImageResponse.detections),
-      };
-
-      await api.post(`/projects/${project.id}/save-processed-image`, requestBody);
-
-      alert('Imagem salva com sucesso na inspeção!');
-      setProcessedImageResponse(null);
-      setSelectedInspectionToSave('');
-      fetchProject();
-    } catch (err) {
-      console.error('Erro ao salvar imagem na inspeção:', err);
-      setError('Erro ao salvar imagem na inspeção.');
-    } finally {
-      setSavingImage(false);
-    }
-  };
-
-  const handleDownloadImage = () => {
-    if (processedImageResponse?.base64) {
-      const link = document.createElement('a');
-      link.href = processedImageResponse.base64;
-      link.download = `processed_image_${Date.now()}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
   };
 
@@ -369,8 +328,9 @@ const ProjectView: React.FC = () => {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]);
+    if (event.target.files) {
+      setSelectedFiles(Array.from(event.target.files));
+      setLastBatchId(null);
     }
   };
 
@@ -414,55 +374,40 @@ const ProjectView: React.FC = () => {
         <Col md={8}>
           <Card>
             <Card.Body>
-              <Card.Title>Processamento de Imagem</Card.Title>
+              <Card.Title>Processamento de Imagens</Card.Title>
               <div className="image-input-group">
                 <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Selecionar Imagem</Form.Label>
-                  <Form.Control type="file" onChange={handleFileChange} />
+                  <Form.Label>
+                    Selecionar Imagens ou Pasta ({selectedFiles.length} {selectedFiles.length === 1 ? 'arquivo' : 'arquivos'} selecionados)
+                  </Form.Label>
+                  <Form.Control 
+                    type="file" 
+                    onChange={handleFileChange} 
+                    multiple 
+                    directory="" 
+                    webkitdirectory="" 
+                  />
                 </Form.Group>
                 <Button
                   variant="success"
-                  onClick={handleProcessImage}
-                  disabled={!selectedFile || processing}
+                  onClick={handleProcessImages}
+                  disabled={selectedFiles.length === 0 || processing}
                   style={{ marginLeft: '1rem' }}
                 >
-                  {processing ? 'Processando...' : 'Processar'}
+                  {processing ? 'Processando...' : 'Processar Imagens'}
                 </Button>
               </div>
 
-              {processedImageResponse && (
-                <div className="image-preview-container">
-                  <h5>Imagem Processada:</h5>
-                  <img src={processedImageResponse.base64} alt="Processed" />
-                  <Form.Group controlId="inspectionSelect" className="mt-3">
-                    <Form.Label>Salvar em Inspeção:</Form.Label>
-                    <Form.Select
-                      value={selectedInspectionToSave}
-                      onChange={(e) => setSelectedInspectionToSave(e.target.value)}
-                      disabled={!processedImageResponse.base64 || (project.inspections?.length || 0) === 0}
-                    >
-                      <option value="">Selecione uma inspeção</option>
-                      {project.inspections?.map((inspection) => (
-                        <option key={inspection.id} value={inspection.id}>
-                          {inspection.inspectionObjective} ({inspection.inspectionDate})
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
+              {lastBatchId && (
+                <div className="mt-3">
+                  <Alert variant="success">
+                    Imagens enviadas para processamento!
+                  </Alert>
                   <Button
-                    variant="success"
-                    onClick={handleSaveProcessedImage}
-                    disabled={savingImage || !selectedInspectionToSave}
-                    className="mt-3 me-2"
+                    variant="primary"
+                    onClick={() => navigate(`/projetos/${project.id}/results/${lastBatchId}`)}
                   >
-                    {savingImage ? 'Salvando...' : 'Salvar no Projeto'}
-                  </Button>
-                  <Button
-                    variant="info"
-                    onClick={handleDownloadImage}
-                    className="mt-3"
-                  >
-                    Baixar Imagem
+                    Ver Imagens Processadas
                   </Button>
                 </div>
               )}
