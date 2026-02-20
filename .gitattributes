@@ -1,1 +1,25 @@
+# Configuração de final de linha (Line Endings)
+* text=auto
+
+# Scripts devem usar LF (Linux style) para compatibilidade
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Arquivos de Dados/Modelos (Git LFS)
 *.pt filter=lfs diff=lfs merge=lfs -text
+
+# Imagens e Binários
+*.jpg binary
+*.JPG binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.pdf binary
+
+# Frontend/Backend
+*.json text
+*.ts text
+*.tsx text
+*.css text
+*.html text
