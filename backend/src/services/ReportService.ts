@@ -2,7 +2,8 @@ import ProjectRepository from '../repositories/ProjectRepository';
 import puppeteer from 'puppeteer';
 import path from 'path';
 import fs from 'fs';
-import { IProject, IInspection, IDetection, IImage } from '../models/IProject'; // Importar IInspection, IDetection, IImage
+import { pathToFileURL } from 'url';
+import { IProject, IInspection, IDetection, IImage } from '../models/IProject';
 
 class ReportService {
   private projectRepository: ProjectRepository;
@@ -12,6 +13,7 @@ class ReportService {
   }
 
   public async generatePdfReport(projectId: string, inspectionId?: string): Promise<Buffer> {
+    console.log(`[ReportService] Iniciando geração de PDF para projeto ${projectId}${inspectionId ? `, inspeção ${inspectionId}` : ''}`);
     const project = await this.projectRepository.findById(projectId);
 
     if (!project) {
@@ -19,60 +21,105 @@ class ReportService {
     }
 
     const htmlContent = this.generateHtmlReport(project, inspectionId);
+    
+    // Criar um arquivo temporário para o HTML
+    const tempDir = path.join(__dirname, '..', '..', 'tmp');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+    const tempFilePath = path.join(tempDir, `report_${projectId}_${Date.now()}.html`);
+    fs.writeFileSync(tempFilePath, htmlContent);
+
+    console.log('[ReportService] HTML gerado e salvo em arquivo temporário, iniciando Puppeteer...');
 
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20mm',
-        bottom: '20mm',
-        left: '10mm',
-        right: '10mm',
-      },
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--allow-file-access-from-files'
+      ]
     });
 
-    await browser.close();
-    return pdfBuffer;
+    try {
+      const page = await browser.newPage();
+      
+      await page.setDefaultNavigationTimeout(120000);
+      await page.setDefaultTimeout(120000);
+
+      console.log('[ReportService] Carregando arquivo HTML temporário no Puppeteer...');
+      const fileUrl = pathToFileURL(tempFilePath).href;
+      await page.goto(fileUrl, { 
+        waitUntil: 'networkidle0',
+        timeout: 120000 
+      });
+
+      console.log('[ReportService] Gerando buffer do PDF...');
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          top: '20mm',
+          bottom: '20mm',
+          left: '10mm',
+          right: '10mm',
+        },
+        timeout: 120000,
+      });
+
+      console.log('[ReportService] PDF gerado com sucesso.');
+      return pdfBuffer;
+    } catch (error) {
+      console.error('[ReportService] Erro durante o processamento do Puppeteer:', error);
+      throw error;
+    } finally {
+      await browser.close();
+      // Remover o arquivo temporário
+      if (fs.existsSync(tempFilePath)) {
+        try {
+          fs.unlinkSync(tempFilePath);
+        } catch (unlinkError) {
+          console.error('[ReportService] Erro ao remover arquivo temporário:', unlinkError);
+        }
+      }
+    }
   }
 
   private generateHtmlReport(project: IProject, targetInspectionId?: string): string {
-    let inspectionsHtml = '';
     let targetInspection: IInspection | undefined;
 
     if (targetInspectionId) {
       targetInspection = project.inspections?.find(inspection => inspection.id === targetInspectionId);
     } else {
-      // Se nenhum ID de inspeção for especificado, reporta todas as inspeções
-      // Ou talvez lançar um erro, dependendo do requisito.
-      // Por enquanto, vou pegar a primeira se houver, ou não gerar HTML de inspeção.
       targetInspection = project.inspections?.[0]; 
     }
 
     let totalDefects = 0;
-    const defectsByClass: { [key: string]: number } = {}; // Objeto para armazenar a contagem por classe
+    const defectsByClass: { [key: string]: number } = {};
 
     const inspectionsToReport = targetInspection ? [targetInspection] : (project.inspections || []);
 
     inspectionsToReport.forEach(inspection => {
         inspection.images.forEach(image => {
-          if (image.detections) {
-            totalDefects += image.detections.length;
-            image.detections.forEach(detection => {
+          let detections = image.detections;
+          if (typeof detections === 'string') {
+            try {
+              detections = JSON.parse(detections);
+            } catch (error) {
+              detections = [];
+            }
+          }
+
+          if (detections && Array.isArray(detections)) {
+            totalDefects += detections.length;
+            detections.forEach(detection => {
               defectsByClass[detection.class_name] = (defectsByClass[detection.class_name] || 0) + 1;
             });
           }
         });
     });
 
-    // Geração do HTML para a contagem por classe
     let defectsByClassHtml = '';
     if (Object.keys(defectsByClass).length > 0) {
       defectsByClassHtml = `
@@ -87,13 +134,23 @@ class ReportService {
       defectsByClassHtml = '<p>Nenhum defeito classificado encontrado.</p>';
     }
 
+    let inspectionsHtml = '';
     if (inspectionsToReport.length > 0) {
       inspectionsHtml = inspectionsToReport.map(inspection => {
         let imagesHtml = '';
         if (inspection.images && inspection.images.length > 0) {
           imagesHtml = inspection.images.map(image => {
+            let detections = image.detections;
+            if (typeof detections === 'string') {
+              try {
+                detections = JSON.parse(detections);
+              } catch (error) {
+                detections = [];
+              }
+            }
+
             let detectionsHtml = 'Nenhuma detecção.';
-            if (image.detections && image.detections.length > 0) {
+            if (detections && Array.isArray(detections) && detections.length > 0) {
               detectionsHtml = `
                 <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
                   <thead>
@@ -104,7 +161,7 @@ class ReportService {
                     </tr>
                   </thead>
                   <tbody>
-                    ${image.detections.map(det => `
+                    ${detections.map(det => `
                       <tr>
                         <td style="border: 1px solid #ddd; padding: 8px;">${det.class_name}</td>
                         <td style="border: 1px solid #ddd; padding: 8px;">${(det.confidence * 100).toFixed(2)}%</td>
@@ -116,10 +173,24 @@ class ReportService {
               `;
             }
 
+            let imgSrc = '';
+            if (image.url && image.url.startsWith('/files/')) {
+              try {
+                const relativePath = image.url.replace('/files/', '');
+                const absolutePath = path.resolve(__dirname, '..', '..', 'public', 'uploads', relativePath);
+                
+                if (fs.existsSync(absolutePath)) {
+                  imgSrc = pathToFileURL(absolutePath).href;
+                }
+              } catch (err) {
+                console.error(`[ReportService] Erro ao obter URL do arquivo: ${image.url}`, err);
+              }
+            }
+
             return `
-              <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+              <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #eee; border-radius: 5px; page-break-inside: avoid;">
                 <h4>Imagem: ${image.url ? path.basename(image.url) : 'Nome da imagem indisponível'}</h4>
-                <img src="http://localhost:3001${image.url}" alt="Imagem Processada" style="max-width: 100%; height: auto; display: block; margin-bottom: 10px;">
+                ${imgSrc ? `<img src="${imgSrc}" alt="Imagem Processada" style="max-width: 100%; height: auto; display: block; margin-bottom: 10px; border: 1px solid #ccc;">` : '<p style="color: red;">Imagem não pôde ser carregada.</p>'}
                 <p><strong>Detecções YOLO:</strong></p>
                 ${detectionsHtml}
               </div>
@@ -139,8 +210,6 @@ class ReportService {
           </div>
         `;
       }).join('');
-    } else if (targetInspectionId) {
-      inspectionsHtml = `<p>A inspeção com ID "\${targetInspectionId}" não foi encontrada neste projeto ou não contém imagens processadas.</p>`;
     } else {
       inspectionsHtml = '<p>Nenhuma inspeção ou imagem processada neste projeto.</p>';
     }
@@ -194,13 +263,11 @@ class ReportService {
                     <p><strong>Tipologia da Cobertura:</strong> ${project.roofTypology || 'Não informado'}</p>
                   ` : ''}
               </div>
-
               <div class="section">
                   <h2>Informações Relevantes</h2>
                   <p><strong>Número de Defeitos Totais:</strong> ${totalDefects}</p>
                   ${defectsByClassHtml}
               </div>
-
               <div class="section">
                   <h2>Imagens Processadas e Detecções</h2>
                   ${inspectionsHtml}

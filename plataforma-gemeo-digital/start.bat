@@ -1,3 +1,0 @@
-@echo off
-echo Iniciando a Plataforma Gêmeo Digital...
-npm start

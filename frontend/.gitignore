@@ -1,0 +1,16 @@
+# Frontend Specific
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vite/TS Cache
+.vite
+.tsbuildinfo

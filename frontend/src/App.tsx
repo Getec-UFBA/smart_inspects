@@ -4,15 +4,17 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Projetos from './pages/Projetos';
-import ProjectView from './pages/ProjectView'; // Importa a nova página
-import OtherModules from './pages/OtherModules'; // Importa a página de Outros Módulos
-import Dashboard from './pages/Dashboard'; // Importa a página do Dashboard
+import ProjectView from './pages/ProjectView';
+import ProjectResults from './pages/ProjectResults';
+import OtherModules from './pages/OtherModules';
+import Dashboard from './pages/Dashboard';
 import RegisterUser from './pages/RegisterUser';
 import CompleteRegistration from './pages/CompleteRegistration';
 import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword'; 
 import ProtectedRoute from './components/ProtectedRoute';
+import ReviewImages from './pages/ReviewImages'; // Import the new component
 import { ThemeContext } from './contexts/ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -40,14 +42,24 @@ function App() {
             <ProjectView />
           </ProtectedRoute>
         } />
+        <Route path="projetos/:id/results" element={
+          <ProtectedRoute>
+            <ProjectResults />
+          </ProtectedRoute>
+        } />
         <Route path="projetos/outros-modulos" element={
           <ProtectedRoute>
             <OtherModules />
           </ProtectedRoute>
         } />
-        <Route path="projetos/:id/dashboard" element={ // Rota do Dashboard
+        <Route path="projetos/:id/dashboard" element={ 
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="review/:reviewId" element={
+          <ProtectedRoute>
+            <ReviewImages />
           </ProtectedRoute>
         } />
         <Route path="profile" element={

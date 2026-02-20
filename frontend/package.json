@@ -4,10 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:backend\"",
-    "dev:frontend": "vite --open",
-    "dev:backend": "cd backend && npm run dev",
+    "start": "vite",
+    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

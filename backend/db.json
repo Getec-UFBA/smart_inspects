@@ -1,0 +1,916 @@
+{
+  "users": [
+    {
+      "id": "1e862e58-8c5a-4e3e-9e7c-1b7f0f6a2e4d",
+      "email": "super@example.com",
+      "password": "$2a$10$JRwgMlxYsG4uX6AOZMuaXuWIM8pYdFBFuFwYD.257WXZdyue9UfCy",
+      "role": "admin"
+    },
+    {
+      "id": "01a35064-cb07-4273-a7e1-fab83c948986",
+      "email": "matheusbreno3829@gmail.com",
+      "role": "admin",
+      "password": "$2a$10$UvT8GfzP1Vq2AMrZp9lTnuN.n0bFG2Re6sJYVNK8LMpfoLUIMN8oS",
+      "securityQuestion": "Qual o nome do seu primeiro animal de estimação?",
+      "securityAnswer": "$2a$10$wdThDadbGwHEfI0X4JA5UeydhTU5alT9n2raYoCpz.7svYGlqX0DS",
+      "avatarUrl": "avatars/0ce602e8a78a7ca218cb-foto_mat.jpeg",
+      "name": "Matheus Breno ",
+      "company": "UFBA- GETEC",
+      "bio": "Estudande de Engenharia de Controle e Automação e bolsista de iniciação teccnológica e industrial desde 2023"
+    },
+    {
+      "id": "d7238005-d4a7-42de-a033-325d817a8f47",
+      "email": "matheusaragao3829@gmail.com",
+      "role": "user",
+      "password": "$2a$10$Llbst.LjFDpxd.H3yW0o4uOfbPl9/6RtOu1He07lXG5gMszNCIllW",
+      "securityQuestion": "Qual o nome do seu primeiro animal de estimação?",
+      "securityAnswer": "$2a$10$YHYqwsd.JhAd5K/l2r9vb.k/g8ArUDQPms51eBCubR5InPzsTE5E."
+    },
+    {
+      "id": "adf7d41c-e654-431e-a6da-90a4ed2537bf",
+      "email": "moisessss@ufba.br",
+      "role": "user",
+      "password": "$2a$10$G66Kv0jskz1HF9zpmrS3RuERbI6GIThCAw11nbFp2/alKIUQAiVAG",
+      "securityQuestion": "Qual o nome do seu primeiro animal de estimação?",
+      "securityAnswer": "$2a$10$S6OREP3tugHiZQbu7XRUMedpBzocEb57.8awYgrpHeDABK7T4UigG",
+      "avatarUrl": "50586c690075f282c7ca-reduction.jpeg"
+    },
+    {
+      "id": "ace027b2-0922-48b6-96d8-c6a28e5357ad",
+      "email": "matheusbreno3@hotmail.com",
+      "role": "user",
+      "password": "$2a$10$hzzzbjHtt9/ldbEykiZhV.MjSRE8CalpHDAalhkdiFKHcbGjNLUXu",
+      "securityQuestion": "Em que cidade você nasceu?",
+      "securityAnswer": "$2a$10$4EeTPhdNiiDM.dXURZIGN.8009u/NMr0h8soT/a6YCx7vVfnm.QA."
+    }
+  ],
+  "projects": [
+    {
+      "id": "79023860-c9b2-4c36-a876-632a2b484c92",
+      "userId": "01a35064-cb07-4273-a7e1-fab83c948986",
+      "name": "Escola de Música da UFBA",
+      "address": "Av. Araújo Pinho, 55 - Canela, Salvador - BA, 40160-060",
+      "type": "",
+      "responsible": "Tecnico Pedro joão",
+      "coverImageUrl": "62d69d521906cab74587-escola_de_musica.jpeg",
+      "bimModelUrl": "88cf5647730899944668-escola_de_musica.jpeg",
+      "modules": {
+        "progress": false,
+        "security": false,
+        "maintenance": true
+      },
+      "oae": [],
+      "inspections": [
+        {
+          "id": "6677ff1f-6bd8-4cb1-b70a-86979aa618ba",
+          "inspectionType": "Preventiva",
+          "inspectionObjective": "Verificação anomalias",
+          "inspectionDate": "2026-02-04",
+          "inspectionResponsible": "Eng Alisson",
+          "images": [
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/1770924749815.png",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.6532303690910339,
+                  "box": {
+                    "x1": 739.5909423828125,
+                    "y1": 1369.467529296875,
+                    "x2": 894.8146362304688,
+                    "y2": 1459.19580078125
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.44502967596054077,
+                  "box": {
+                    "x1": 934.4906005859375,
+                    "y1": 1383.753662109375,
+                    "x2": 1059.9796142578125,
+                    "y2": 1456.0732421875
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.3320867717266083,
+                  "box": {
+                    "x1": 2992.0146484375,
+                    "y1": 2450.468017578125,
+                    "x2": 3070.629638671875,
+                    "y2": 2510.352783203125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/580e0b69-4700-4408-a971-f3b39fa07ac5.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/ebf12511-a40a-4466-abae-209a2e1e2058.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7112971544265747,
+                  "box": {
+                    "x1": 1778.1778564453125,
+                    "y1": 1141.2012939453125,
+                    "x2": 1894.222900390625,
+                    "y2": 1215.033935546875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7005548477172852,
+                  "box": {
+                    "x1": 1590.0167236328125,
+                    "y1": 1135.2127685546875,
+                    "x2": 1732.28955078125,
+                    "y2": 1209.5994873046875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.2671290934085846,
+                  "box": {
+                    "x1": 1581.6978759765625,
+                    "y1": 1147.5079345703125,
+                    "x2": 1735.202392578125,
+                    "y2": 1232.34765625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f9c2f611-57cc-482a-8af3-1f1e2aabc24e.jpg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.45970380306243896,
+                  "box": {
+                    "x1": 1502.8076171875,
+                    "y1": 2107.732666015625,
+                    "x2": 2048.746826171875,
+                    "y2": 2323.00732421875
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.25693851709365845,
+                  "box": {
+                    "x1": 1494.839111328125,
+                    "y1": 2100.5478515625,
+                    "x2": 2155.829345703125,
+                    "y2": 2355.986328125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/32aa7719-8827-443e-be9a-f5ddf9dc4e60.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.5500451922416687,
+                  "box": {
+                    "x1": 2847.863037109375,
+                    "y1": 1174.5457763671875,
+                    "x2": 2942.675048828125,
+                    "y2": 1238.5377197265625
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.3709496259689331,
+                  "box": {
+                    "x1": 2641.1171875,
+                    "y1": 1153.5982666015625,
+                    "x2": 2778.533935546875,
+                    "y2": 1243.931396484375
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/7825d21d-73f6-488d-a12e-7428a10c207c.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/e134b64f-efdc-4d99-af91-149e74910905.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.6176910996437073,
+                  "box": {
+                    "x1": 1776.7259521484375,
+                    "y1": 1134.056640625,
+                    "x2": 1896.0096435546875,
+                    "y2": 1207.655517578125
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.4179874360561371,
+                  "box": {
+                    "x1": 1596.7266845703125,
+                    "y1": 1129.2156982421875,
+                    "x2": 1735.2249755859375,
+                    "y2": 1218.9049072265625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f5fcce95-1808-44a7-8b71-0ea1ffcfdccc.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/f6c6b983-1860-4c8e-a8e7-28e1c5d95085.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/d5e5444b-a884-4674-b609-eec5a3a2adea.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/150e9ed9-4922-4524-a182-825786ec3133.jpg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2541174590587616,
+                  "box": {
+                    "x1": 3051.08154296875,
+                    "y1": 2104.01025390625,
+                    "x2": 3691.90673828125,
+                    "y2": 2435.465087890625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/329d4a88-8eb9-49d7-afc1-a5532cffd0ee.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/4f5d0ca4-aeab-413e-bc92-c2a8159292a0.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/efc64541-71d5-418a-b5e1-40dcde1476e1.jpg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/6677ff1f-6bd8-4cb1-b70a-86979aa618ba/3efcdac8-d081-4890-a678-7c1656e6c757.jpg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7112971544265747,
+                  "box": {
+                    "x1": 1778.1778564453125,
+                    "y1": 1141.2012939453125,
+                    "x2": 1894.222900390625,
+                    "y2": 1215.033935546875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7005548477172852,
+                  "box": {
+                    "x1": 1590.0167236328125,
+                    "y1": 1135.2127685546875,
+                    "x2": 1732.28955078125,
+                    "y2": 1209.5994873046875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.2671290934085846,
+                  "box": {
+                    "x1": 1581.6978759765625,
+                    "y1": 1147.5079345703125,
+                    "x2": 1735.202392578125,
+                    "y2": 1232.34765625
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6",
+          "inspectionType": "Preventiva",
+          "inspectionObjective": "teste 02",
+          "inspectionDate": "2026-02-11",
+          "inspectionResponsible": "joazinho",
+          "images": [
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/021b3dee-7256-48b5-ba87-a51636b875f1.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/22891147-a8a1-4cca-875d-7b1089aa8519.jpeg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7112971544265747,
+                  "box": {
+                    "x1": 1778.1778564453125,
+                    "y1": 1141.2012939453125,
+                    "x2": 1894.222900390625,
+                    "y2": 1215.033935546875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.7005548477172852,
+                  "box": {
+                    "x1": 1590.0167236328125,
+                    "y1": 1135.2127685546875,
+                    "x2": 1732.28955078125,
+                    "y2": 1209.5994873046875
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.2671290934085846,
+                  "box": {
+                    "x1": 1581.6978759765625,
+                    "y1": 1147.5079345703125,
+                    "x2": 1735.202392578125,
+                    "y2": 1232.34765625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/2e165f13-7257-40d0-93c3-f86887db5ddf.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/6a872438-7592-47c0-bd40-466cd22dd630.jpeg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.6176910996437073,
+                  "box": {
+                    "x1": 1776.7259521484375,
+                    "y1": 1134.056640625,
+                    "x2": 1896.0096435546875,
+                    "y2": 1207.655517578125
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.4179874360561371,
+                  "box": {
+                    "x1": 1596.7266845703125,
+                    "y1": 1129.2156982421875,
+                    "x2": 1735.2249755859375,
+                    "y2": 1218.9049072265625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/7c94a527-cdf2-4b20-b258-d40d817e513d.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/8281ff24-86bb-43ab-800f-4517a633b1ab.jpeg",
+              "detections": [
+                {
+                  "class_name": "C02",
+                  "confidence": 0.5500451922416687,
+                  "box": {
+                    "x1": 2847.863037109375,
+                    "y1": 1174.5457763671875,
+                    "x2": 2942.675048828125,
+                    "y2": 1238.5377197265625
+                  }
+                },
+                {
+                  "class_name": "C02",
+                  "confidence": 0.3709496259689331,
+                  "box": {
+                    "x1": 2641.1171875,
+                    "y1": 1153.5982666015625,
+                    "x2": 2778.533935546875,
+                    "y2": 1243.931396484375
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/84583513-c9c3-4454-94b5-a66b59c53b79.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/8b0e5bd0-bdba-4329-a92e-57d0057593ca.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2541174590587616,
+                  "box": {
+                    "x1": 3051.08154296875,
+                    "y1": 2104.01025390625,
+                    "x2": 3691.90673828125,
+                    "y2": 2435.465087890625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/9fb4ac7c-bca3-4798-baa8-fe4c72b55b29.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/a5ad70d0-a2c1-4597-8f05-4a1e9c9b8e89.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/b1e06376-034a-4142-94ed-62220474da4f.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/e74150b4-bae1-4601-b098-80d306974422.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.45970380306243896,
+                  "box": {
+                    "x1": 1502.8076171875,
+                    "y1": 2107.732666015625,
+                    "x2": 2048.746826171875,
+                    "y2": 2323.00732421875
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.25693851709365845,
+                  "box": {
+                    "x1": 1494.839111328125,
+                    "y1": 2100.5478515625,
+                    "x2": 2155.829345703125,
+                    "y2": 2355.986328125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/e0aaa55d-ca5e-40f4-aca4-a739dc99e3d6/f5779fd5-ebd5-4129-b265-3ed9494ceb52.jpeg",
+              "detections": []
+            }
+          ]
+        },
+        {
+          "id": "ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b",
+          "inspectionType": "Corretiva",
+          "inspectionObjective": "Teste de validação ",
+          "inspectionDate": "2026-02-19",
+          "inspectionResponsible": "Engenheiro José",
+          "images": [
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/0baa04c3-79ae-4a21-a2f0-03353070b4e4.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.46248283982276917,
+                  "box": {
+                    "x1": 3354.163330078125,
+                    "y1": 2010.8895263671875,
+                    "x2": 3875.62353515625,
+                    "y2": 2397.45263671875
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.2557690441608429,
+                  "box": {
+                    "x1": 1780.0635986328125,
+                    "y1": 1769.179443359375,
+                    "x2": 1914.8599853515625,
+                    "y2": 1884.8814697265625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/1b6024e0-3b22-405d-844a-d7dbb108e195.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.6017935276031494,
+                  "box": {
+                    "x1": 1208.0875244140625,
+                    "y1": 738.0210571289062,
+                    "x2": 1464.616943359375,
+                    "y2": 984.4067993164062
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.5708060264587402,
+                  "box": {
+                    "x1": 4097.29345703125,
+                    "y1": 1206.2001953125,
+                    "x2": 4694.1923828125,
+                    "y2": 1797.780517578125
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2673916518688202,
+                  "box": {
+                    "x1": 4028.52001953125,
+                    "y1": 1101.5780029296875,
+                    "x2": 4640.1904296875,
+                    "y2": 1737.0616455078125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/2a56e965-6278-4e32-8695-340bc53b3aed.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/3bc28e96-aceb-4eb7-ac08-aa818b5508aa.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.43193772435188293,
+                  "box": {
+                    "x1": 1799.765625,
+                    "y1": 1857.5762939453125,
+                    "x2": 1912.5557861328125,
+                    "y2": 1966.832763671875
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.33629971742630005,
+                  "box": {
+                    "x1": 3380.046875,
+                    "y1": 1940.0079345703125,
+                    "x2": 3931.22900390625,
+                    "y2": 2254.46533203125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/3e547d91-1a11-418a-89f7-94069cb845e1.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2783794105052948,
+                  "box": {
+                    "x1": 334.5479736328125,
+                    "y1": 3035.0673828125,
+                    "x2": 790.3155517578125,
+                    "y2": 3393.475341796875
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/429a7b24-8b08-4e7d-8dd4-b0681390a82c.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2936776876449585,
+                  "box": {
+                    "x1": 1011.4210815429688,
+                    "y1": 2722.3671875,
+                    "x2": 1347.9901123046875,
+                    "y2": 3085.6064453125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/48ac7ebd-d73d-4e55-ada1-7f5738a10498.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.663510262966156,
+                  "box": {
+                    "x1": 335.6978454589844,
+                    "y1": 1209.4503173828125,
+                    "x2": 965.302001953125,
+                    "y2": 1995.427001953125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/49adf928-ba93-474c-9946-97fec294b1fd.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.6132506728172302,
+                  "box": {
+                    "x1": 1374.0672607421875,
+                    "y1": 2783.968505859375,
+                    "x2": 2591.744384765625,
+                    "y2": 3602.97216796875
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.2678966522216797,
+                  "box": {
+                    "x1": 250.5102996826172,
+                    "y1": 1115.1448974609375,
+                    "x2": 411.97100830078125,
+                    "y2": 1262.6785888671875
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/4bf2fbb1-c9f7-489e-b1db-b4d24e1bb832.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.27647456526756287,
+                  "box": {
+                    "x1": 319.0533752441406,
+                    "y1": 2495.962158203125,
+                    "x2": 490.4642639160156,
+                    "y2": 2664.04248046875
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/61140428-aaeb-484c-a277-7aab153b763e.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.4402811527252197,
+                  "box": {
+                    "x1": 3828.860595703125,
+                    "y1": 2101.9853515625,
+                    "x2": 4783.05419921875,
+                    "y2": 3614.462890625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/69c4bae1-dd32-4fe9-a22c-1ae6516ba8d4.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.663510262966156,
+                  "box": {
+                    "x1": 335.6978454589844,
+                    "y1": 1209.4503173828125,
+                    "x2": 965.302001953125,
+                    "y2": 1995.427001953125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/6f23d59c-4567-4823-b46d-f2b517b7a5bb.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.449304461479187,
+                  "box": {
+                    "x1": 2398.16162109375,
+                    "y1": 0,
+                    "x2": 2640.26123046875,
+                    "y2": 240.99209594726562
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2757629454135895,
+                  "box": {
+                    "x1": 5104.03076171875,
+                    "y1": 452.8506164550781,
+                    "x2": 5440.8330078125,
+                    "y2": 761.5977172851562
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/88c6de84-de86-4337-8d7f-8ea37e163937.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.44994527101516724,
+                  "box": {
+                    "x1": 1776.049560546875,
+                    "y1": 1865.8927001953125,
+                    "x2": 1910.720947265625,
+                    "y2": 1977.483642578125
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.35920360684394836,
+                  "box": {
+                    "x1": 3357.8720703125,
+                    "y1": 2081.8212890625,
+                    "x2": 3890.767578125,
+                    "y2": 2438.9931640625
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.27291154861450195,
+                  "box": {
+                    "x1": 1753.5609130859375,
+                    "y1": 1854.7786865234375,
+                    "x2": 1924.195068359375,
+                    "y2": 2003.9400634765625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/91737d4b-4a28-442f-904c-1bca41baea8c.jpeg",
+              "detections": []
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/9e6698d4-9a0a-4436-805a-b00edc08de39.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.5791520476341248,
+                  "box": {
+                    "x1": 794.881103515625,
+                    "y1": 1122.52587890625,
+                    "x2": 954.0676879882812,
+                    "y2": 1279.001708984375
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.5582057237625122,
+                  "box": {
+                    "x1": 2442.643310546875,
+                    "y1": 2802.786376953125,
+                    "x2": 4057.646484375,
+                    "y2": 3612.6806640625
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.2656429409980774,
+                  "box": {
+                    "x1": 3931.84716796875,
+                    "y1": 781.4241943359375,
+                    "x2": 4232.05029296875,
+                    "y2": 922.754150390625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/ce8a60d4-4ac0-480b-86df-ec73bbc3a673.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.3441528081893921,
+                  "box": {
+                    "x1": 2923.985107421875,
+                    "y1": 3063.48828125,
+                    "x2": 3556.801025390625,
+                    "y2": 3629.892333984375
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.33302223682403564,
+                  "box": {
+                    "x1": 2884.798828125,
+                    "y1": 2878.673828125,
+                    "x2": 3572.344970703125,
+                    "y2": 3636.30078125
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.3010047674179077,
+                  "box": {
+                    "x1": 2.392815351486206,
+                    "y1": 1771.126220703125,
+                    "x2": 169.89987182617188,
+                    "y2": 2139.860107421875
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/d371537a-fdac-43ef-b228-58c371bf76d7.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.6911109685897827,
+                  "box": {
+                    "x1": 1717.174072265625,
+                    "y1": 1642.826904296875,
+                    "x2": 2263.14990234375,
+                    "y2": 2164.406494140625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/de995527-7894-424a-9c21-c824dbee3c63.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.588635265827179,
+                  "box": {
+                    "x1": 728.1721801757812,
+                    "y1": 131.73072814941406,
+                    "x2": 963.7568969726562,
+                    "y2": 361.46514892578125
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.5329761505126953,
+                  "box": {
+                    "x1": 3462.366455078125,
+                    "y1": 559.6796875,
+                    "x2": 3961.552978515625,
+                    "y2": 1243.609130859375
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.3696044087409973,
+                  "box": {
+                    "x1": 672.30517578125,
+                    "y1": 101.34454345703125,
+                    "x2": 975.9781494140625,
+                    "y2": 376.523681640625
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/e69805e1-fb4e-4fea-bba9-a1ebfbac46a2.jpeg",
+              "detections": [
+                {
+                  "class_name": "C04",
+                  "confidence": 0.43193772435188293,
+                  "box": {
+                    "x1": 1799.765625,
+                    "y1": 1857.5762939453125,
+                    "x2": 1912.5557861328125,
+                    "y2": 1966.832763671875
+                  }
+                },
+                {
+                  "class_name": "C05",
+                  "confidence": 0.33629971742630005,
+                  "box": {
+                    "x1": 3380.046875,
+                    "y1": 1940.0079345703125,
+                    "x2": 3931.22900390625,
+                    "y2": 2254.46533203125
+                  }
+                }
+              ]
+            },
+            {
+              "url": "/files/processed_images/79023860-c9b2-4c36-a876-632a2b484c92/ca6fdc43-1f2a-4443-aa2d-f7c6f6ad394b/fb51245e-b043-42ce-820b-7dbd66006740.jpeg",
+              "detections": [
+                {
+                  "class_name": "C05",
+                  "confidence": 0.5601503849029541,
+                  "box": {
+                    "x1": 4060.36376953125,
+                    "y1": 623.8392333984375,
+                    "x2": 4678.7705078125,
+                    "y2": 1255.2596435546875
+                  }
+                },
+                {
+                  "class_name": "C04",
+                  "confidence": 0.5449506640434265,
+                  "box": {
+                    "x1": 1100.36962890625,
+                    "y1": 128.69122314453125,
+                    "x2": 1381.263427734375,
+                    "y2": 394.2913818359375
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
