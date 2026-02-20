@@ -5,76 +5,80 @@ import ProjectController from '../controllers/ProjectController';
 import { authenticateToken, authorizeRole } from '../middlewares/auth';
 
 const projectRouter = Router();
-const uploadProjects = multer({ storage: uploadConfig.storage(uploadConfig.projectsDirectory) });
-const upload = multer({ storage: uploadConfig.storage(uploadConfig.projectsDirectory) }); // New multer instance for single upload
+const upload = multer({ storage: uploadConfig.storage(uploadConfig.projectsDirectory) });
 const projectController = new ProjectController();
 
 // Todas as rotas de projeto precisam de autenticação
 projectRouter.use(authenticateToken);
 
-projectRouter.get('/', projectController.index.bind(projectController));
-projectRouter.get('/:id', projectController.show.bind(projectController)); // Rota para buscar um projeto por ID
-projectRouter.put('/:id', authorizeRole(['admin']), projectController.update.bind(projectController));
-projectRouter.delete('/:id', authorizeRole(['admin']), projectController.delete.bind(projectController)); // Protegida para admin
+projectRouter.get('/', projectController.index);
+projectRouter.get('/:id', projectController.show);
+projectRouter.put('/:id', authorizeRole(['admin']), projectController.update);
+projectRouter.delete('/:id', authorizeRole(['admin']), projectController.delete);
 
-// New route for processing images for the results page
+// Route to start the image processing and create a pending review
 projectRouter.post(
-  '/process-images-for-results',
+  '/process-images',
   upload.array('images', 50),
-  projectController.processImagesForResults.bind(projectController)
+  projectController.processImagesForResults
 );
 
-// New route for saving a single processed image to an inspection
-projectRouter.post(
-  '/:projectId/inspections/:inspectionId/save-image',
-  projectController.saveImageToInspection.bind(projectController)
+// Route to get the data for a pending review
+projectRouter.get(
+  '/review/:reviewId',
+  projectController.getReview
 );
 
-// New route for uploading multiple images to a specific inspection
+// Route to get a single image from a pending review
+projectRouter.get(
+  '/review/:reviewId/images/:imageId',
+  projectController.getReviewImage
+);
+
+// Route to finalize a review and save the images to an inspection
 projectRouter.post(
-  '/:projectId/inspections/:inspectionId/upload-images',
-  upload.array('images', 50), // Accept up to 50 images in the 'images' field
-  projectController.uploadImagesToInspection.bind(projectController)
+  '/review/:reviewId/save',
+  projectController.saveReview
 );
 
 // New route for creating inspections
 projectRouter.post(
   '/:projectId/inspections',
-  authorizeRole(['admin']), // Protect this route for admin users
-  projectController.createInspection.bind(projectController)
+  authorizeRole(['admin']),
+  projectController.createInspection
 );
 
 // New route for deleting inspections
 projectRouter.delete(
   '/:projectId/inspections/:inspectionId',
-  authorizeRole(['admin']), // Protect this route for admin users
-  projectController.deleteInspection.bind(projectController)
+  authorizeRole(['admin']),
+  projectController.deleteInspection
 );
 
 // New route for deleting image from inspection
 projectRouter.delete(
   '/:projectId/inspections/:inspectionId/images/:imageName',
-  projectController.deleteImageFromInspection.bind(projectController)
+  projectController.deleteImageFromInspection
 );
 
 // New route for generating PDF inspection report
 projectRouter.get(
   '/:projectId/report/pdf/inspections/:inspectionId',
-  projectController.generateInspectionPdfReport.bind(projectController)
+  projectController.generateInspectionPdfReport
 );
 
 // Define os campos que o multer deve esperar
 const uploadFields = [
   { name: 'coverImage', maxCount: 1 },
   { name: 'bimModel', maxCount: 1 },
-  { name: 'oaeBimModel[]', maxCount: 30 } // Permite até 30 modelos de OAE
+  { name: 'oaeBimModel[]', maxCount: 30 }
 ];
 
 projectRouter.post(
   '/',
-  authorizeRole(['admin']), // Protegida para admin
-  uploadProjects.fields(uploadFields),
-  projectController.create.bind(projectController)
+  authorizeRole(['admin']),
+  upload.fields(uploadFields),
+  projectController.create
 );
 
 export default projectRouter;

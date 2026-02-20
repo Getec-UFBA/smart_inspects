@@ -231,10 +231,10 @@ const ProjectView: React.FC = () => {
     });
 
     try {
-      const response = await api.post('/projects/process-images-for-results', formData);
+      const response = await api.post('/projects/process-images', formData);
       setSelectedFiles([]);
-      alert('Imagens processadas com sucesso!');
-      navigate(`/projetos/${project.id}/results`, { state: { processedImages: response.data.images } });
+      alert('Imagens enviadas para revisão!');
+      navigate(`/review/${response.data.reviewId}`);
     } catch (err) {
       console.error('Erro ao processar imagens:', err);
       const errorMessage = (err as any).response?.data?.error || 'Erro desconhecido ao processar imagens.';

@@ -14,6 +14,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword'; 
 import ProtectedRoute from './components/ProtectedRoute';
+import ReviewImages from './pages/ReviewImages'; // Import the new component
 import { ThemeContext } from './contexts/ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -54,6 +55,11 @@ function App() {
         <Route path="projetos/:id/dashboard" element={ 
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="review/:reviewId" element={
+          <ProtectedRoute>
+            <ReviewImages />
           </ProtectedRoute>
         } />
         <Route path="profile" element={

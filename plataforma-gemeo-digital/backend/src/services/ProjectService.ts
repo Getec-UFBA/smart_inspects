@@ -47,6 +47,14 @@ interface ISaveImageToInspectionRequest {
   detections: IDetection[];
 }
 
+export interface ISaveReviewedImageRequest {
+  projectId: string;
+  inspectionId: string;
+  base64Data: string;
+  detections: IDetection[];
+  originalFileName: string;
+}
+
 class ProjectService {
   private projectRepository = new ProjectRepository();
 
@@ -248,6 +256,51 @@ class ProjectService {
 
     await this.addImagesToInspection({ projectId, inspectionId, images: [newImage] });
 
+    return newImage;
+  }
+
+  public async saveReviewedImage({
+    projectId,
+    inspectionId,
+    base64Data,
+    detections,
+    originalFileName,
+  }: ISaveReviewedImageRequest): Promise<IImage> {
+    const project = await this.projectRepository.findById(projectId);
+    if (!project) {
+      throw new Error('Projeto não encontrado.');
+    }
+  
+    const inspection = project.inspections?.find(insp => insp.id === inspectionId);
+    if (!inspection) {
+      throw new Error('Inspeção não encontrada.');
+    }
+  
+    const imageBuffer = Buffer.from(base64Data, 'base64');
+    const fileExtension = path.extname(originalFileName);
+    const newFileName = `${uuidv4()}${fileExtension}`;
+  
+    const destinationDir = path.resolve(
+      uploadConfig.projectsDirectory,
+      '..',
+      'processed_images',
+      projectId,
+      inspectionId
+    );
+    
+    await fs.mkdir(destinationDir, { recursive: true });
+    const destinationPath = path.join(destinationDir, newFileName);
+    await fs.writeFile(destinationPath, imageBuffer);
+  
+    const relativePath = `/files/processed_images/${projectId}/${inspectionId}/${newFileName}`;
+    
+    const newImage: IImage = {
+      url: relativePath,
+      detections,
+    };
+  
+    await this.addImagesToInspection({ projectId, inspectionId, images: [newImage] });
+  
     return newImage;
   }
 
